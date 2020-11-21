@@ -9,7 +9,7 @@ Um projeto de sistema para uma concessionaria, podendo cadastrar veículos, vend
 sequencial e solicitar sua marca, modelo, ano e preço. Todo automóvel que é cadastrado a
 princípio ainda não foi vendido
 
-[] b) Alterar automóvel
+[ ] b) Alterar automóvel
 > o sistema deve solicitar o código do automóvel, mostrar seus dados
 atuais e permitir alterar sua marca, modelo, ano e preço
 
@@ -18,7 +18,7 @@ atuais e permitir alterar sua marca, modelo, ano e preço
 no formato de tabela, contendo o código, marca, modelo e preço de todos os
 automóveis cadastrados.
 
-[] d) Listar os automóveis a venda
+[ ] d) Listar os automóveis a venda
 > idêntica a listagem anterior, só que aparecem apenas os
 veículos que não foram vendidos ainda.
 
@@ -26,7 +26,7 @@ veículos que não foram vendidos ainda.
 > o sistema deve gerar o código do vendedor de forma automática e
 sequencial e depois solicitar seu nome.
 
-[] f) Alterar vendedor
+[ ] f) Alterar vendedor
 > o sistema deve solicitar o código do vendedor, mostrar seu nome atual e
 permitir alterar seu nome.
 
@@ -39,12 +39,12 @@ vendedores cadastrados.
 dados desse automóvel (marca, modelo, ano e preço), e se ele ainda não foi vendido,
 solicitar o código do vendedor e mostrar seu nome, e solicitar a data da venda.
 
-[] i) Listar todas as vendas realizadas em um mês/ano
+[ ] i) Listar todas as vendas realizadas em um mês/ano
 > o sistema deve solicitar um mês e ano
 e depois gerar uma listagem em formato de tabela contendo a data da venda, marca, modelo,
 ano e preço do automóvel e nome do vendedor de todas as vendas neste mês/ano.
 
-[] j) Listar todos os automóveis vendidos por um vendedor
+[ ] j) Listar todos os automóveis vendidos por um vendedor
 > o sistema deve solicitar o código
 do vendedor, mostrar seu nome, e exibir uma listagem __ordenada pela data da venda__, no
 formato de tabela, contendo a data da venda, marca, modelo, ano e preço de todos os

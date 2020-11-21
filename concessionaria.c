@@ -18,8 +18,8 @@
  */
 
 #include <stdio.h>
-#include "automovel.h"
 #include "utils.h"
+#include "automovel.h"
 #include "vendedor.h"
 #include "venda.h"
 

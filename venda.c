@@ -11,6 +11,7 @@
 */
 
 #include <stdio.h>
+#include "utils.h"
 #include "venda.h"
 
 void cadastrar_venda(void) {

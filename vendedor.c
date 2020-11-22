@@ -66,6 +66,7 @@ void listar_vendedores(void) {
 }
 
 void alterar_vendedor(void) {
+    vendedor v;
     FILE * vendedorFile;
     // Verifica se há algo de errado com o arquivo
     if ((vendedorFile = fopen(ARQ_VENDEDORES, "r+b")) == NULL) {
@@ -75,5 +76,31 @@ void alterar_vendedor(void) {
     }
 
     int codigo;
-    
+    printf("\n\n\tINFORME O CODIGO DO VENDEDOR A SE ALTERAR: ");
+    scanf("%d", &codigo);
+
+    fseek(vendedorFile, (codigo - 1) * sizeof(vendedor), SEEK_SET);
+    fread(&v, sizeof(vendedor), 1, vendedorFile);
+
+    if (codigo < 1 || feof(vendedorFile)) {
+        printf("\tERRO: Carro com vodigo invalido, por favor tente um valido.\n");
+        pausarTela();
+        return;
+    } else {
+        printf("\tCodigo\t\tNome\n");
+        printf("\t---------------------------------------\n");
+        printf("\t%d\t\t%s\n", v.codigo, v.nome);
+        printf("\t---------------------------------------\n");
+
+        char novoNome[41];
+        printf("Alterar nome: ");
+        scanf(" %40[^\n]", &novoNome);
+
+        strcpy(v.nome, novoNome);
+
+        fseek(vendedorFile, -sizeof(vendedor), SEEK_CUR);
+        fwrite(&v, sizeof(vendedor), 1, vendedorFile);
+    }
+
+    fclose(vendedorFile);
 }

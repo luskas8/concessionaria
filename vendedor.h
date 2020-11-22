@@ -8,6 +8,7 @@
  */
 #ifndef _VENDEDOR_H
 #define _VENDEDOR_H
+#include <string.h>
 #include "utils.h"
 #define ARQ_VENDEDORES "vendedores.dat"
 

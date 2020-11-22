@@ -20,7 +20,7 @@ typedef struct {
 void cadastrar_vendedor(void);
 
 /* função que altera um vendedor */
-// void alterar_vendedor(void);
+void alterar_vendedor(void);
 
 /* função que lista todos os vendedores */
 void listar_vendedores(void);

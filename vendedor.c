@@ -64,3 +64,16 @@ void listar_vendedores(void) {
     }
     pausarTela();
 }
+
+void alterar_vendedor(void) {
+    FILE * vendedorFile;
+    // Verifica se há algo de errado com o arquivo
+    if ((vendedorFile = fopen(ARQ_VENDEDORES, "r+b")) == NULL) {
+        printf("\n\n\tERRO: Algo de errado com seu arquivo %s, por favor verifique e tente novamente!\n", ARQ_VENDEDORES);
+        pausarTela();
+        return;
+    }
+
+    int codigo;
+    
+}

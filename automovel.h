@@ -11,6 +11,7 @@
 #define _AUTOMOVEL_H
 #include <stdbool.h>
 #include "utils.h"
+#include <string.h>
 #define ARQ_AUTOMOVEIS "automoveis.dat"
 #define ARQ_A_VENDA "avenda.txt"
 
@@ -27,13 +28,13 @@ typedef struct {
 void cadastrar_automovel(void);
 
 /* função que altera os dados de um automóvel cadastrado */
-// void alterar_automovel(void);
+void alterar_automovel(void);
 
 /* função que lista todos os automóveis cadastrados */
 void listar_todos_automoveis(void);
 
 /* função que lista os automóveis a venda */
-// void listar_automoveis_a_venda(void);
+void listar_automoveis_a_venda(void);
 
 /* função que ordenada um vetor do tipo automovel pelo preço */
 void ordenar_automoveis(int, automovel []);

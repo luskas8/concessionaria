@@ -9,7 +9,7 @@ Um projeto de sistema para uma concessionaria, podendo cadastrar veículos, vend
 sequencial e solicitar sua marca, modelo, ano e preço. Todo automóvel que é cadastrado a
 princípio ainda não foi vendido
 
-#### [ ] b) Alterar automóvel
+#### [x] b) Alterar automóvel
 > o sistema deve solicitar o código do automóvel, mostrar seus dados
 atuais e permitir alterar sua marca, modelo, ano e preço
 
@@ -18,7 +18,7 @@ atuais e permitir alterar sua marca, modelo, ano e preço
 no formato de tabela, contendo o código, marca, modelo e preço de todos os
 automóveis cadastrados.
 
-#### [ ] d) Listar os automóveis a venda
+#### [+/-] d) Listar os automóveis a venda
 > idêntica a listagem anterior, só que aparecem apenas os
 veículos que não foram vendidos ainda.
 
@@ -26,7 +26,7 @@ veículos que não foram vendidos ainda.
 > o sistema deve gerar o código do vendedor de forma automática e
 sequencial e depois solicitar seu nome.
 
-#### [ ] f) Alterar vendedor
+#### [Andamento] f) Alterar vendedor
 > o sistema deve solicitar o código do vendedor, mostrar seu nome atual e
 permitir alterar seu nome.
 

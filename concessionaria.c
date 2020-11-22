@@ -62,21 +62,21 @@ int main() {
             case CAD_AUTOMOVEL:
                 cadastrar_automovel();
             break;
-            // case ALT_AUTOMOVEL:
-            //     alterar_automovel();
-            // break;
+            case ALT_AUTOMOVEL:
+                alterar_automovel();
+            break;
             case LIST_TODOS_AUTOS:
                 listar_todos_automoveis();
             break;
-            // case LIST_AUTOS_A_VENDA:
-            //     listar_automoveis_a_venda();
-            // break;
+            case LIST_AUTOS_A_VENDA:
+                listar_automoveis_a_venda();
+            break;
             case CAD_VENDEDOR:
                 cadastrar_vendedor();
             break;
-            // case ALT_VENDEDOR:
-            //     alterar_vendedor();
-            // break;
+            case ALT_VENDEDOR:
+                alterar_vendedor();
+            break;
             case LIST_VENDEDOR:
                 listar_vendedores();
             break;

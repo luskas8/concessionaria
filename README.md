@@ -18,7 +18,7 @@ atuais e permitir alterar sua marca, modelo, ano e preço
 no formato de tabela, contendo o código, marca, modelo e preço de todos os
 automóveis cadastrados.
 
-#### [+/-] d) Listar os automóveis a venda
+#### [Andamento] d) Listar os automóveis a venda
 > idêntica a listagem anterior, só que aparecem apenas os
 veículos que não foram vendidos ainda.
 
@@ -26,7 +26,7 @@ veículos que não foram vendidos ainda.
 > o sistema deve gerar o código do vendedor de forma automática e
 sequencial e depois solicitar seu nome.
 
-#### [Andamento] f) Alterar vendedor
+#### [x] f) Alterar vendedor
 > o sistema deve solicitar o código do vendedor, mostrar seu nome atual e
 permitir alterar seu nome.
 

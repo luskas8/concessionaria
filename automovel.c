@@ -85,8 +85,9 @@ void listar_automoveis_a_venda(void) {
         return;
     }
 
-    if ((carrosVendidosFile = fopen(ARQ_A_VENDA, "w") == NULL)) {
+    if ((carrosVendidosFile = fopen(ARQ_A_VENDA, "w")) == NULL) {
         printf("\n\n\tERRO: Algo de errado com seu arquivo %s, por favor tente novamente!\n", ARQ_A_VENDA);
+        fclose(automoveisFile);
         pausarTela();
         return;
     }
@@ -117,7 +118,7 @@ void listar_automoveis_a_venda(void) {
     printf("\tCodigo\t\tMarca\t\tModelo\t\tPreco\n");
     printf("\t------------------------------------------------------------------------\n");
     for (i = 0; i < j; i++) {
-        printf("\t%d\t\t%s\t\t%s\t\t%.2f\n", carrosVendidos[i].codigo, carrosVendidos[i].marca, carrosVendidos[i].modelo, carrosVendidos[i].preco);
+        printf("\t%03d\t\t%s\t\t%s\t\t%.2f\n", carrosVendidos[i].codigo, carrosVendidos[i].marca, carrosVendidos[i].modelo, carrosVendidos[i].preco);
         printf("\t------------------------------------------------------------------------\n");
     }
 
@@ -126,18 +127,16 @@ void listar_automoveis_a_venda(void) {
     scanf(" \t%c", &ch);
 
     if (ch == 'S' || ch == 's') {
-        // fprintf(carrosVendidosFile, "Codigo\t\tMarca\t\tModelo\t\tPreco\n");
-        // for (i = 0; i < j; i++) {
-        //     fprintf(carrosVendidosFile, "%d\t\t%s\t\t%s\t\t%.2f\n", carrosVendidos[i].codigo, carrosVendidos[i].marca, carrosVendidos[i].modelo, carrosVendidos[i].preco);
-        //     fprintf(carrosVendidosFile, "------------------------------------------------------------------------\n");
-        // }
-
-        fwrite(carrosVendidos, sizeof(automovel), j, carrosVendidosFile);
+        fprintf(carrosVendidosFile, "Codigo\t\tMarca\t\t\t\t\tModelo\t\t\t\t\tPreco\n");
+        fprintf(carrosVendidosFile, "------------------------------------------------------------------------\n");
+        for (i = 0; i < j; i++) {
+            fprintf(carrosVendidosFile, "%03d\t\t\t%-21s\t%-21s\t%.2f\n", carrosVendidos[i].codigo, carrosVendidos[i].marca, carrosVendidos[i].modelo, carrosVendidos[i].preco);
+            fprintf(carrosVendidosFile, "------------------------------------------------------------------------\n");
+        }
     }
     
     fclose(carrosVendidosFile);
     printf("\n");
-    pausarTela();
 }
 
 void alterar_automovel(void) {

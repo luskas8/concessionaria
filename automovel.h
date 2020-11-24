@@ -39,7 +39,7 @@ void listar_automoveis_a_venda(void);
 /* função que ordenada um vetor do tipo automovel pelo preço */
 void ordenar_automoveis(int, automovel []);
 
-/* Função de quicksort para ordernar o vetor */
+/* Função de quicksort para ordernar o vetor de tipo automovel */
 void quicksort(automovel a[], int inicio, int fim);
 
 #endif 

@@ -1,4 +1,4 @@
-concessionaria: concessionaria.c automovel.o vendedor.o venda.o utils.o automovel.h vendedor.h utils.h
+concessionaria: concessionaria.c automovel.o vendedor.o venda.o utils.o automovel.h vendedor.h venda.h utils.h
 	gcc -o concessionaria concessionaria.c automovel.o vendedor.o venda.o utils.o
 
 utils.o: utils.c utils.h

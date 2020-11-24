@@ -89,7 +89,7 @@ int main() {
             // case LIST_VENDAS_VENDEDOR:
             //     listar_vendas_vendedor();
             // break;
-                case SAIR:
+            case SAIR:
             break;
             default:
                 printf("\n\tOpcao invalida!\n");

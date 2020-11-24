@@ -18,7 +18,7 @@ atuais e permitir alterar sua marca, modelo, ano e preço
 no formato de tabela, contendo o código, marca, modelo e preço de todos os
 automóveis cadastrados.
 
-#### [Andamento] d) Listar os automóveis a venda
+#### [x] d) Listar os automóveis a venda
 > idêntica a listagem anterior, só que aparecem apenas os
 veículos que não foram vendidos ainda.
 

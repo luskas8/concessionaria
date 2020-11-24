@@ -65,12 +65,12 @@ void listar_todos_automoveis(void) {
     ordenar_automoveis(TAMANHO, carros);
 
     printf("\n\n\t\tLISTA DE CARROS CADASTRADOS\n\n");
-    printf("\tCodigo\t\tMarca\t\tModelo\t\tPreco\n");
-    printf("\t------------------------------------------------------------------------\n");
+    printf("\tCodigo\t\tMarca\t\t\t\tModelo\t\t\t\tPreco\n");
+    printf("\t----------------------------------------------------------------------------------------------\n");
     int i;
     for (i = 0; i < TAMANHO; i++) {
-        printf("\t%d\t\t%s\t\t%s\t\t%.2f\n", carros[i].codigo, carros[i].marca, carros[i].modelo, carros[i].preco);
-        printf("\t------------------------------------------------------------------------\n");
+        printf("\t%03d\t\t%-21s\t\t%-21s\t\t%.2f\n", carros[i].codigo, carros[i].marca, carros[i].modelo, carros[i].preco);
+        printf("\t----------------------------------------------------------------------------------------------\n");
     }
     fclose(automoveisFile);
     pausarTela();
@@ -114,11 +114,11 @@ void listar_automoveis_a_venda(void) {
     ordenar_automoveis(j, carrosVendidos);
 
     printf("\n\n\t\tLISTA DE CARROS A VENDA\n\n");
-    printf("\tCodigo\t\tMarca\t\tModelo\t\tPreco\n");
-    printf("\t------------------------------------------------------------------------\n");
+    printf("\tCodigo\t\tMarca\t\t\t\tModelo\t\t\t\tPreco\n");
+    printf("\t----------------------------------------------------------------------------------------------\n");
     for (i = 0; i < j; i++) {
-        printf("\t%03d\t\t%s\t\t%s\t\t%.2f\n", carrosVendidos[i].codigo, carrosVendidos[i].marca, carrosVendidos[i].modelo, carrosVendidos[i].preco);
-        printf("\t------------------------------------------------------------------------\n");
+        printf("\t%03d\t\t%-21s\t\t%-21s\t\t%.2f\n", carrosVendidos[i].codigo, carrosVendidos[i].marca, carrosVendidos[i].modelo, carrosVendidos[i].preco);
+        printf("\t----------------------------------------------------------------------------------------------\n");
     }
 
     printf("\tGostaria de salvar em arquivo? [S]im | [N]ao\n");
@@ -177,7 +177,13 @@ void alterar_automovel(void) {
         carro.preco = novoPreco;
         
         fseek(automoveisFile, -sizeof(automovel), SEEK_CUR);
-        fwrite(&carro, sizeof(automovel), 1, automoveisFile);
+        if (fwrite(&carro, sizeof(automovel), 1, automoveisFile) < 1) {
+            printf("\tERRO: Algo de errado aconteceu, por favor tente novamente!\n");
+            pausarTela();
+        } else {
+            printf("\tSUCESSO: Carro alterado!\n");
+            pausarTela();
+        }
     }
     
     fclose(automoveisFile);

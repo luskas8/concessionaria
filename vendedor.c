@@ -59,6 +59,7 @@ void listar_vendedores(void) {
     // Retornar o ponteiro de leitura para o começo do arquivo
     rewind(vendedorFile);
     fread(p, sizeof(vendedor), TAMANHO, vendedorFile);
+    fclose(vendedorFile);
 
     printf("\n\n\t\tLISTA DE VENDEDORES CADASTRADOS\n\n");
     printf("\tCodigo\t\tNome\n");

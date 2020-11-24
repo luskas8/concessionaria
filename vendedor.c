@@ -14,7 +14,7 @@
 #include "vendedor.h"
 
 void cadastrar_vendedor(void) {
-    vendedor p;
+    vendedor v;
     FILE * vendedorFile;
     // Verifica se há algo de errado com o arquivo
     if ((vendedorFile = fopen(ARQ_VENDEDORES, "r+b")) == NULL) {
@@ -26,12 +26,18 @@ void cadastrar_vendedor(void) {
     // Move o ponteiro de posição para o final do arquivo
     fseek(vendedorFile, 0, SEEK_END);
     // Encontra-se o ultimo carro cadastrado e cria-se este novo carro na próxima posição
-    p.codigo = ftell(vendedorFile) / sizeof(vendedor) + 1;
+    v.codigo = ftell(vendedorFile) / sizeof(vendedor) + 1;
 
     printf("Nome do vendedor: ");
-    scanf(" %40[^\n]", &p.nome);
+    scanf(" %40[^\n]", &v.nome);
 
-    fwrite(&p, sizeof(vendedor), 1, vendedorFile);
+    if (fwrite(&v, sizeof(vendedor), 1, vendedorFile) < 1) {
+        printf("\tERRO: Algo de errado aconteceu, por favor tente novamente!\n");
+        pausarTela();
+    } else {
+        printf("\tSUCESSO: Vendedor cadastrado!\n");
+        pausarTela();
+    }
     fclose(vendedorFile);
 }
 

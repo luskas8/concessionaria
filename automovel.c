@@ -39,7 +39,14 @@ void cadastrar_automovel(void) {
     scanf("%f", &carro.preco);
 
     // Escreve no arquivo as informações desse novo carro
-    fwrite(&carro, sizeof(automovel), 1, automoveisFile);
+    if (fwrite(&carro, sizeof(automovel), 1, automoveisFile) < 1) {
+        printf("\tERRO: Algo de errado aconteceu, por favor tente novamente!\n");
+        pausarTela();
+    } else {
+        printf("\tSUCESSO: Carro cadastrado!\n");
+        pausarTela();
+    }
+
     fclose(automoveisFile);
 }
 

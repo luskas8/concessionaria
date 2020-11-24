@@ -84,6 +84,7 @@ void alterar_vendedor(void) {
 
     if (codigo < 1 || feof(vendedorFile)) {
         printf("\tERRO: Vendedor com codigo invalido, por favor tente um valido.\n");
+        fclose(vendedorFile);
         pausarTela();
         return;
     } else {
@@ -99,7 +100,13 @@ void alterar_vendedor(void) {
         strcpy(v.nome, novoNome);
 
         fseek(vendedorFile, -sizeof(vendedor), SEEK_CUR);
-        fwrite(&v, sizeof(vendedor), 1, vendedorFile);
+        if (fwrite(&v, sizeof(vendedor), 1, vendedorFile) < 1) {
+            printf("\tERRO: Algo de errado aconteceu, por favor tente novamente!\n");
+            pausarTela();
+        } else {
+            printf("\tSUCESSO: Vendedor alterado!\n");
+            pausarTela();
+        }
     }
 
     fclose(vendedorFile);

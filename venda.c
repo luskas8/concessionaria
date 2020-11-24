@@ -7,7 +7,7 @@
  * 
  * Ciência da Computação
  * 
- * 21/11/2020
+ * 24/11/2020
 */
 
 #include <stdio.h>
@@ -27,10 +27,22 @@ void cadastrar_venda(void) {
     // Move o ponteiro de posição para o final do arquivo
     fseek(vendaFile, 0, SEEK_END);
 
-    printf("Codigo do vendedor: ");
-    scanf("%d", &v.cod_vendedor);
     printf("Codigo do automovel: ");
     scanf("%d", &v.cod_automovel);
+    if (!automovel_valido(v.cod_automovel)) {
+        fclose(vendaFile);
+        return;
+    }
+
+    printf("Codigo do vendedor: ");
+    scanf("%d", &v.cod_vendedor);
+    if (!vendedor_valido(v.cod_vendedor)) {
+        fclose(vendaFile);
+        return;
+    }
+
+    printf("Data da venda: <dd/mm/aaaa>\n");
+    scanf("%d/%d/%d", &v.dt.dia, &v.dt.mes, &v.dt.ano);
 
     fwrite(&v, sizeof(venda), 1, vendaFile);
     fclose(vendaFile);

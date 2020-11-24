@@ -1,5 +1,17 @@
+# makefile
+
+# Arthur Freire
+# Lucas Silva dos Anjos
+
+# Ciência da Computação
+ 
+# 24/11/2020
+
+# Criação do executavel, .exe, do sistema da concessionaria
 concessionaria: concessionaria.c automovel.o vendedor.o venda.o utils.o automovel.h vendedor.h venda.h utils.h
 	gcc -o concessionaria concessionaria.c automovel.o vendedor.o venda.o utils.o
+
+# Criação dos modulos do sitema, arquivos .o
 
 utils.o: utils.c utils.h
 	gcc -c utils.c

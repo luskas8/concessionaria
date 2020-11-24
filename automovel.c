@@ -7,7 +7,7 @@
  * 
  * Ciência da Computação
  * 
- * 21/11/2020
+ * 24/11/2020
 */
 
 #include <stdio.h>
@@ -76,6 +76,7 @@ void listar_todos_automoveis(void) {
     printf("\t----------------------------------------------------------------------------------------------\n");
     int i;
     for (i = 0; i < TAMANHO; i++) {
+        // Lista as informações do automovel i
         printf("\t%03d\t\t%-21s\t\t%-21s\t\t%.2f\n", carros[i].codigo, carros[i].marca, carros[i].modelo, carros[i].preco);
         printf("\t----------------------------------------------------------------------------------------------\n");
     }
@@ -84,14 +85,14 @@ void listar_todos_automoveis(void) {
 }
 
 void listar_automoveis_a_venda(void) {
-    FILE * automoveisFile, * carrosVendidosFile;
+    FILE * automoveisFile, * carrosAVendidosFile;
     if ((automoveisFile = fopen(ARQ_AUTOMOVEIS, "r+b")) == NULL) {
         printf("\n\n\tERRO: Algo de errado com seu arquivo %s, por favor verifique e tente novamente!\n", ARQ_AUTOMOVEIS);
         pausarTela();
         return;
     }
 
-    if ((carrosVendidosFile = fopen(ARQ_A_VENDA, "w")) == NULL) {
+    if ((carrosAVendidosFile = fopen(ARQ_A_VENDA, "w")) == NULL) {
         printf("\n\n\tERRO: Algo de errado com seu arquivo %s, por favor tente novamente!\n", ARQ_A_VENDA);
         fclose(automoveisFile);
         pausarTela();
@@ -103,7 +104,7 @@ void listar_automoveis_a_venda(void) {
     // Calcula-se o tamanha do vetor de carros cadastrados
     int TAMANHO = ftell(automoveisFile) / sizeof(automovel);
     automovel carros[TAMANHO];
-    automovel carrosVendidos[TAMANHO];
+    automovel carrosAVendidos[TAMANHO];
 
     // Retornar o ponteiro de leitura para o começo do arquivo
     rewind(automoveisFile);
@@ -112,19 +113,20 @@ void listar_automoveis_a_venda(void) {
     int i, j = 0;
     for (i = 0; i < TAMANHO; i++) {
         if (!carros[i].vendido) {
-            carrosVendidos[j++] = carros[i];
+            // Coloca o carro i na posição j do vetor de carros a vendidos
+            carrosAVendidos[j++] = carros[i];
         }
     }
     fclose(automoveisFile);
 
     // Ordena os carros em ordem crescente de preço
-    ordenar_automoveis(j, carrosVendidos);
+    ordenar_automoveis(j, carrosAVendidos);
 
     printf("\n\n\t\tLISTA DE CARROS A VENDA\n\n");
     printf("\tCodigo\t\tMarca\t\t\t\tModelo\t\t\t\tPreco\n");
     printf("\t----------------------------------------------------------------------------------------------\n");
     for (i = 0; i < j; i++) {
-        printf("\t%03d\t\t%-21s\t\t%-21s\t\t%.2f\n", carrosVendidos[i].codigo, carrosVendidos[i].marca, carrosVendidos[i].modelo, carrosVendidos[i].preco);
+        printf("\t%03d\t\t%-21s\t\t%-21s\t\t%.2f\n", carrosAVendidos[i].codigo, carrosAVendidos[i].marca, carrosAVendidos[i].modelo, carrosAVendidos[i].preco);
         printf("\t----------------------------------------------------------------------------------------------\n");
     }
 
@@ -133,15 +135,16 @@ void listar_automoveis_a_venda(void) {
     scanf(" \t%c", &ch);
 
     if (ch == 'S' || ch == 's') {
-        fprintf(carrosVendidosFile, "Codigo\t\tMarca\t\t\t\t\tModelo\t\t\t\t\tPreco\n");
-        fprintf(carrosVendidosFile, "------------------------------------------------------------------------\n");
+        fprintf(carrosAVendidosFile, "Codigo\t\tMarca\t\t\t\t\tModelo\t\t\t\t\tPreco\n");
+        fprintf(carrosAVendidosFile, "------------------------------------------------------------------------\n");
         for (i = 0; i < j; i++) {
-            fprintf(carrosVendidosFile, "%03d\t\t\t%-21s\t%-21s\t%.2f\n", carrosVendidos[i].codigo, carrosVendidos[i].marca, carrosVendidos[i].modelo, carrosVendidos[i].preco);
-            fprintf(carrosVendidosFile, "------------------------------------------------------------------------\n");
+            // Escreve no arquivo as informações do automovel i a venda
+            fprintf(carrosAVendidosFile, "%03d\t\t\t%-21s\t%-21s\t%.2f\n", carrosAVendidos[i].codigo, carrosAVendidos[i].marca, carrosAVendidos[i].modelo, carrosAVendidos[i].preco);
+            fprintf(carrosAVendidosFile, "------------------------------------------------------------------------\n");
         }
     }
     
-    fclose(carrosVendidosFile);
+    fclose(carrosAVendidosFile);
     printf("\n");
 }
 
@@ -158,11 +161,13 @@ void alterar_automovel(void) {
     printf("\n\n\tINFORME O CODIGO DO CARRO A SE ALTERAR: ");
     scanf("%d", &codigo);
     
-    fseek(automoveisFile, (codigo - 1) * sizeof(automovel), SEEK_SET);
-    fread(&carro, sizeof(automovel), 1, automoveisFile);
+    fseek(automoveisFile, (codigo - 1) * sizeof(automovel), SEEK_SET); // Coloca o ponteiro de leitura no fim do automovel anterior ao que deseja alterar
+    fread(&carro, sizeof(automovel), 1, automoveisFile); // Lê-se os dados do automovel de código especificado
 
+    // Caso o codigo seja menos que 1 ou o fim do arquivo seja excedido
     if (codigo < 1 || feof(automoveisFile)) {
         printf("\tERRO: Carro com codigo invalido, por favor tente um valido.\n");
+        fclose(automoveisFile);
         pausarTela();
         return;
     } else {
@@ -180,11 +185,12 @@ void alterar_automovel(void) {
         printf("\tAlterar preco: ");
         scanf("%f", &novoPreco);
 
+        // Coloca os novos dados na estrutura de automovel
         strcpy(carro.marca, novaMarca); strcpy(carro.modelo, novoModelo);
         carro.preco = novoPreco;
         
         fseek(automoveisFile, -sizeof(automovel), SEEK_CUR);
-        if (fwrite(&carro, sizeof(automovel), 1, automoveisFile) < 1) {
+        if (fwrite(&carro, sizeof(automovel), 1, automoveisFile) < 1) { // Altera no arquivo o automovel desejado
             printf("\tERRO: Algo de errado aconteceu, por favor tente novamente!\n");
             pausarTela();
         } else {
@@ -219,4 +225,32 @@ void quicksort(automovel a[], int inicio, int fim) {
     if (j > inicio) quicksort(a, inicio, j);
     // Se I não chegou ao fim faz-se o processo de novo
     if (i < fim) quicksort(a, i, fim);
+}
+
+bool automovel_valido(int codigo) {
+    automovel carro;
+    FILE * automoveisFile;
+    if ((automoveisFile = fopen(ARQ_AUTOMOVEIS, "rb")) == NULL) {
+        printf("\n\n\tERRO: Algo de errado com seu arquivo %s, por favor verifique e tente novamente!\n", ARQ_AUTOMOVEIS);
+        pausarTela();
+        return false;
+    }
+
+    fseek(automoveisFile, (codigo - 1) * sizeof(automovel), SEEK_SET); // Coloca o ponteiro de leitura no fim do automovel anterior ao que deseja alterar
+    fread(&carro, sizeof(automovel), 1, automoveisFile); // Lê-se os dados do automovel de código especificado
+
+    // Caso o codigo seja menos que 1 ou o fim do arquivo seja excedido
+    if (codigo < 1 || feof(automoveisFile)) {
+        printf("\tERRO: Carro com codigo invalido, por favor tente um valido.\n");
+        fclose(automoveisFile);
+        pausarTela();
+        return false;
+    } else {
+        printf("\tCodigo\t\tMarca\t\tModelo\t\tPreco\n");
+        printf("\t------------------------------------------------------------------------\n");
+        printf("\t%d\t\t%s\t\t%s\t\t%.2f\n\n", carro.codigo, carro.marca, carro.modelo, carro.preco);
+
+        fclose(automoveisFile);
+        return true;
+    }
 }

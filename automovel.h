@@ -5,6 +5,13 @@
  *
  * Ciro Cirne Trindade
  * 19/11/2020
+ * 
+ * Arthur Freire
+ * Lucas Silva dos Anjos
+ * 
+ * Ciência da Computação
+ * 
+ * 24/11/2020
  */
 
 #ifndef _AUTOMOVEL_H
@@ -39,7 +46,9 @@ void listar_automoveis_a_venda(void);
 /* função que ordenada um vetor do tipo automovel pelo preço */
 void ordenar_automoveis(int, automovel []);
 
-/* Função de quicksort para ordernar o vetor de tipo automovel */
+/* função de quicksort para ordernar o vetor de tipo automovel */
 void quicksort(automovel a[], int inicio, int fim);
 
+/* função que recebe inteiro e retornar se é um código de automovel válido */
+bool automovel_valido(int);
 #endif 

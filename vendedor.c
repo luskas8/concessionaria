@@ -7,7 +7,7 @@
  * 
  * Ciência da Computação
  * 
- * 21/11/2020
+ * 24/11/2020
 */
 
 #include <stdio.h>
@@ -66,6 +66,7 @@ void listar_vendedores(void) {
     printf("\t---------------------------------------\n");
     int i;
     for (i = 0; i < TAMANHO; i++) {
+        // Lista os dados do vendedor i
         printf("\t%d\t\t%s\n", p[i].codigo, p[i].nome);
         printf("\t---------------------------------------\n");
     }
@@ -86,8 +87,8 @@ void alterar_vendedor(void) {
     printf("\n\n\tINFORME O CODIGO DO VENDEDOR A SE ALTERAR: ");
     scanf("%d", &codigo);
 
-    fseek(vendedorFile, (codigo - 1) * sizeof(vendedor), SEEK_SET);
-    fread(&v, sizeof(vendedor), 1, vendedorFile);
+    fseek(vendedorFile, (codigo - 1) * sizeof(vendedor), SEEK_SET); // Coloca o ponteiro de leitura no fim do vendedor anterior ao que deseja alterar
+    fread(&v, sizeof(vendedor), 1, vendedorFile); // Lê-se os dados do vendedor de código especificado
 
     if (codigo < 1 || feof(vendedorFile)) {
         printf("\tERRO: Vendedor com codigo invalido, por favor tente um valido.\n");
@@ -104,6 +105,7 @@ void alterar_vendedor(void) {
         printf("Alterar nome: ");
         scanf(" %40[^\n]", &novoNome);
 
+        // Copia o novo nome para a estrutura de vendedor
         strcpy(v.nome, novoNome);
 
         fseek(vendedorFile, -sizeof(vendedor), SEEK_CUR);
@@ -117,4 +119,31 @@ void alterar_vendedor(void) {
     }
 
     fclose(vendedorFile);
+}
+
+bool vendedor_valido(int codigo) {
+    vendedor v;
+    FILE * vendedorFile;
+    // Verifica se há algo de errado com o arquivo
+    if ((vendedorFile = fopen(ARQ_VENDEDORES, "rb")) == NULL) {
+        printf("\n\n\tERRO: Algo de errado com seu arquivo %s, por favor verifique e tente novamente!\n", ARQ_VENDEDORES);
+        pausarTela();
+        return false;
+    }
+
+    fseek(vendedorFile, (codigo - 1) * sizeof(vendedor), SEEK_SET); // Coloca o ponteiro de leitura no fim do vendedor anterior ao que deseja alterar
+    fread(&v, sizeof(vendedor), 1, vendedorFile); // Lê-se os dados do vendedor de código especificado
+
+    // Caso o codigo seja menos que 1 ou o fim do arquivo seja excedido
+    if (codigo < 1 || feof(vendedorFile)) {
+        printf("\tERRO: Vendedor com codigo invalido, por favor tente um valido.\n");
+        fclose(vendedorFile);
+        pausarTela();
+        return false;
+    } else {
+        printf("VENDEDOR: %-21s\n\n", v.nome);
+
+        fclose(vendedorFile);
+        return true;
+    };
 }

@@ -76,7 +76,6 @@ void listar_todos_automoveis(void) {
     pausarTela();
 }
 
-// Funcional, mas não está salvando em arquivo avenda.txt
 void listar_automoveis_a_venda(void) {
     FILE * automoveisFile, * carrosVendidosFile;
     if ((automoveisFile = fopen(ARQ_AUTOMOVEIS, "r+b")) == NULL) {
@@ -156,7 +155,7 @@ void alterar_automovel(void) {
     fread(&carro, sizeof(automovel), 1, automoveisFile);
 
     if (codigo < 1 || feof(automoveisFile)) {
-        printf("\tERRO: Carro com vodigo invalido, por favor tente um valido.\n");
+        printf("\tERRO: Carro com codigo invalido, por favor tente um valido.\n");
         pausarTela();
         return;
     } else {

@@ -83,7 +83,7 @@ void alterar_vendedor(void) {
     fread(&v, sizeof(vendedor), 1, vendedorFile);
 
     if (codigo < 1 || feof(vendedorFile)) {
-        printf("\tERRO: Carro com vodigo invalido, por favor tente um valido.\n");
+        printf("\tERRO: Vendedor com codigo invalido, por favor tente um valido.\n");
         pausarTela();
         return;
     } else {

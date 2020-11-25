@@ -44,7 +44,7 @@ void cadastrar_vendedor(void) {
 void listar_vendedores(void) {
     FILE * vendedorFile;
     // Verifica se há algo de errado com o arquivo
-    if ((vendedorFile = fopen(ARQ_VENDEDORES, "r+b")) == NULL) {
+    if ((vendedorFile = fopen(ARQ_VENDEDORES, "rb")) == NULL) {
         printf("\n\n\tERRO: Algo de errado com seu arquivo %s, por favor verifique e tente novamente!\n", ARQ_VENDEDORES);
         pausarTela();
         return;
@@ -54,11 +54,11 @@ void listar_vendedores(void) {
     fseek(vendedorFile, 0, SEEK_END);
     // Calcula-se o tamanha do vetor de vendedores cadastrados
     int TAMANHO = ftell(vendedorFile) / sizeof(vendedor);
-    vendedor p[TAMANHO];
+    vendedor vendedores[TAMANHO];
 
     // Retornar o ponteiro de leitura para o começo do arquivo
     rewind(vendedorFile);
-    fread(p, sizeof(vendedor), TAMANHO, vendedorFile);
+    fread(vendedores, sizeof(vendedor), TAMANHO, vendedorFile);
     fclose(vendedorFile);
 
     printf("\n\n\t\tLISTA DE VENDEDORES CADASTRADOS\n\n");
@@ -67,7 +67,7 @@ void listar_vendedores(void) {
     int i;
     for (i = 0; i < TAMANHO; i++) {
         // Lista os dados do vendedor i
-        printf("\t%d\t\t%s\n", p[i].codigo, p[i].nome);
+        printf("\t%d\t\t%s\n", vendedores[i].codigo, vendedores[i].nome);
         printf("\t---------------------------------------\n");
     }
     pausarTela();

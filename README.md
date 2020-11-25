@@ -39,7 +39,7 @@ vendedores cadastrados.
 dados desse automóvel (marca, modelo, ano e preço), e se ele ainda não foi vendido,
 solicitar o código do vendedor e mostrar seu nome, e solicitar a data da venda.
 
-#### [ ] i) Listar todas as vendas realizadas em um mês/ano
+#### [Andamente] i) Listar todas as vendas realizadas em um mês/ano
 > o sistema deve solicitar um mês e ano
 e depois gerar uma listagem em formato de tabela contendo a data da venda, marca, modelo,
 ano e preço do automóvel e nome do vendedor de todas as vendas neste mês/ano.

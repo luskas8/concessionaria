@@ -51,4 +51,7 @@ void quicksort(automovel a[], int inicio, int fim);
 
 /* função que recebe inteiro e retornar se é um código de automovel válido */
 bool automovel_valido(int);
+
+/* função que recebe um inteiro e altera o status de vendido de um carro determinado por esse inteiro */
+void vender_automovel(int codigo);
 #endif 

@@ -35,12 +35,16 @@ typedef struct {
 void cadastrar_venda(void);
 
 /* função que lista todas as vendas realizadas em um mês/ano */
-// void listar_vendas_mes(void);
+void listar_vendas_mes(void);
 
 /* função que lista todas as vendas realizadas por um vendedor */
 void listar_vendas_vendedor(void);
 
 /* função que ordena um vetor de venda pela data da venda */
-// void ordenar_vendas(int, venda []);
+void ordenar_vendas(int, venda []);
+
+int compara(data a, data b);
+
+void quicksortVendas(venda vendas[], int e, int d);
 
 #endif

@@ -83,12 +83,12 @@ int main() {
             case CAD_VENDA:
                 cadastrar_venda();
             break;
-            // case LIST_VENDAS_MES:
-            //     listar_vendas_mes();
-            // break;
-            // case LIST_VENDAS_VENDEDOR:
-            //     listar_vendas_vendedor();
-            // break;
+            case LIST_VENDAS_MES:
+                listar_vendas_mes();
+            break;
+            case LIST_VENDAS_VENDEDOR:
+                listar_vendas_vendedor();
+            break;
             case SAIR:
             break;
             default:

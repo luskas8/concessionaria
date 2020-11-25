@@ -52,7 +52,7 @@ void cadastrar_automovel(void) {
 
 void listar_todos_automoveis(void) {
     FILE * automoveisFile;
-    if ((automoveisFile = fopen(ARQ_AUTOMOVEIS, "r+b")) == NULL) {
+    if ((automoveisFile = fopen(ARQ_AUTOMOVEIS, "rb")) == NULL) {
         printf("\n\n\tERRO: Algo de errado com seu arquivo %s, por favor verifique e tente novamente!\n", ARQ_AUTOMOVEIS);
         pausarTela();
         return;
@@ -86,7 +86,7 @@ void listar_todos_automoveis(void) {
 
 void listar_automoveis_a_venda(void) {
     FILE * automoveisFile, * carrosAVendidosFile;
-    if ((automoveisFile = fopen(ARQ_AUTOMOVEIS, "r+b")) == NULL) {
+    if ((automoveisFile = fopen(ARQ_AUTOMOVEIS, "rb")) == NULL) {
         printf("\n\n\tERRO: Algo de errado com seu arquivo %s, por favor verifique e tente novamente!\n", ARQ_AUTOMOVEIS);
         pausarTela();
         return;
@@ -253,4 +253,29 @@ bool automovel_valido(int codigo) {
         fclose(automoveisFile);
         return true;
     }
+}
+
+void vender_automovel(int codigo) {
+    automovel carro;
+    FILE * automoveisFile;
+    if ((automoveisFile = fopen(ARQ_AUTOMOVEIS, "r+b")) == NULL) {
+        printf("\n\n\tERRO: Algo de errado com seu arquivo %s, por favor verifique e tente novamente!\n", ARQ_AUTOMOVEIS);
+        pausarTela();
+        return;
+    }
+
+    fseek(automoveisFile, (codigo - 1) * sizeof(automovel), SEEK_SET); // Coloca o ponteiro de leitura no fim do automovel anterior ao que deseja alterar
+    fread(&carro, sizeof(automovel), 1, automoveisFile); // Lê-se os dados do automovel de código especificado
+
+    // Caso o codigo seja menos que 1 ou o fim do arquivo seja excedido
+    if (codigo < 1 || feof(automoveisFile)) {
+        printf("\tERRO: Carro com codigo invalido, por favor tente um valido.\n");
+        pausarTela();
+        return;
+    } else {
+        carro.vendido = true;
+        fseek(automoveisFile, -sizeof(automovel), SEEK_CUR);
+        fwrite(&carro, sizeof(automovel), 1, automoveisFile); // Altera no arquivo o automovel desejado
+    }
+    fclose(automoveisFile);
 }

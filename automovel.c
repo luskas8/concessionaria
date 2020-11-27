@@ -34,9 +34,9 @@ void cadastrar_automovel(void) {
     printf("Modelo do carro: ");
     read_line(carro.modelo, 21);
     printf("Ano do carro: ");
-    scanf("%d", &carro.ano);
+    read_int(&carro.ano);
     printf("Preco do carro: ");
-    scanf("%f", &carro.preco);
+    read_float(&carro.preco);
 
     // Escreve no arquivo as informações desse novo carro
     if (fwrite(&carro, sizeof(automovel), 1, automoveisFile) < 1) {
@@ -183,7 +183,9 @@ void alterar_automovel(void) {
         printf("\tAlterar modelo: ");
         read_line(carro.modelo, 21);
         printf("\tAlterar preco: ");
-        scanf("%f", &carro.preco);
+        read_float(&carro.preco);
+        printf("\tAlterar preco: ");
+        read_float(&carro.preco);
         
         fseek(automoveisFile, -sizeof(automovel), SEEK_CUR);
         if (fwrite(&carro, sizeof(automovel), 1, automoveisFile) < 1) { // Altera no arquivo o automovel desejado

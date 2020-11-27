@@ -39,3 +39,12 @@ bool read_int (int * var) {
     result = sscanf(line, "%d", var);
     return (result == 1);
 }
+
+bool read_float (float * var) {
+    int result;
+
+    char line[MAX_LENGTH + 1];
+    read_line(line, MAX_LENGTH);
+    result = sscanf(line, "%f", var);
+    return (result == 1);
+}

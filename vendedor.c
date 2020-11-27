@@ -29,7 +29,7 @@ void cadastrar_vendedor(void) {
     v.codigo = ftell(vendedorFile) / sizeof(vendedor) + 1;
 
     printf("Nome do vendedor: ");
-    scanf(" %40[^\n]", &v.nome);
+    read_line(v.nome, 41);
 
     if (fwrite(&v, sizeof(vendedor), 1, vendedorFile) < 1) {
         printf("\tERRO: Algo de errado aconteceu, por favor tente novamente!\n");
@@ -85,7 +85,7 @@ void alterar_vendedor(void) {
 
     int codigo;
     printf("\n\n\tINFORME O CODIGO DO VENDEDOR A SE ALTERAR: ");
-    scanf("%d", &codigo);
+    read_int(&codigo);
 
     fseek(vendedorFile, (codigo - 1) * sizeof(vendedor), SEEK_SET); // Coloca o ponteiro de leitura no fim do vendedor anterior ao que deseja alterar
     fread(&v, sizeof(vendedor), 1, vendedorFile); // Lê-se os dados do vendedor de código especificado
@@ -103,10 +103,7 @@ void alterar_vendedor(void) {
 
         char novoNome[41];
         printf("Alterar nome: ");
-        scanf(" %40[^\n]", &novoNome);
-
-        // Copia o novo nome para a estrutura de vendedor
-        strcpy(v.nome, novoNome);
+        read_line(v.nome, 41);
 
         fseek(vendedorFile, -sizeof(vendedor), SEEK_CUR);
         if (fwrite(&v, sizeof(vendedor), 1, vendedorFile) < 1) {
@@ -141,7 +138,7 @@ bool vendedor_valido(int codigo) {
         pausarTela();
         return false;
     } else {
-        printf("VENDEDOR: %-21s\n\n", v.nome);
+        printf("VENDEDOR: %s\n\n", v.nome);
 
         fclose(vendedorFile);
         return true;

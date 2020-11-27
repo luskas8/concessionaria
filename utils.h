@@ -21,6 +21,10 @@ void pausarTela(void);
    na linha */
 void read_line (char line[], int max_length);
 
+/* Função ecebe um inteiro para ser lido como entrada do teclado */
 bool read_int (int * var);
+
+/* Função recebe um ponto flutuante para ser lido como entrada do teclado */
+bool read_float (float * var);
 
 #endif

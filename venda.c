@@ -96,7 +96,7 @@ void listar_vendas_vendedor(void) {
 
     ordenar_vendas(TAMANHO_VENDAS, vendas);
 
-    float vendasTotaisMes = 0.0;
+    float valorVendasTotais = 0.0;
     printf("\tDATA DA VENDA\t\tMARCA\t\tMODELO\t\tPRECO\n");
     printf("\t------------------------------------------------------------------------------------------------------------------------------------\n");
     for (i = 0; i < TAMANHO_VENDAS; i++) {
@@ -109,10 +109,10 @@ void listar_vendas_vendedor(void) {
             // Informações do carro
             printf("\t\t%s\t\t%s\t\t%.2f\n", carros[id_carro].marca, carros[id_carro].modelo, carros[id_carro].preco);
             printf("\t------------------------------------------------------------------------------------------------------------------------------------\n");
-            vendasTotaisMes += carros[id_carro].preco;
+            valorVendasTotais += carros[id_carro].preco;
         }
     }
-    printf("\tTOTAL DO MES\t\t\t\t\t\t%.2f\n\n", vendasTotaisMes);
+    printf("\tTOTAL DO MES\t\t\t\t\t\t%.2f\n\n", valorVendasTotais);
     pausarTela();
 }
 

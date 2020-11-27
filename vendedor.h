@@ -11,7 +11,7 @@
  * 
  * Ciência da Computação
  * 
- * 24/11/2020
+ * 27/11/2020
  */
 #ifndef _VENDEDOR_H
 #define _VENDEDOR_H
@@ -36,7 +36,5 @@ void listar_vendedores(void);
 
 /* função que recebe um inteiro e retorna se é um código de vendedor cadastrado ou não */
 bool vendedor_valido(int);
-
-void pegar_nome_vendedor(int, char[]);
 
 #endif

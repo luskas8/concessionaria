@@ -104,10 +104,10 @@ int menu(char * opcoes[], int num) {
     int i, op;
     printf("\n\n\t\tCONCESSIONARIA DE AUTOMOVEIS\n\n");
     for (i = 0; i < num-1; i++) {
-        printf("\t%2d - %s\n", i + 1, opcoes[i]);
+        printf("\t%02d - %s\n", i + 1, opcoes[i]);
     }
 
-    printf("\t%2d - %s\n", SAIR, opcoes[i]);
+    printf("\t%02d - %s\n", SAIR, opcoes[i]);
     printf("\tOpcao: ");
     read_int(&op);
     return op;

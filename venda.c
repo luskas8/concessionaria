@@ -53,7 +53,67 @@ void cadastrar_venda(void) {
 }
 
 void listar_vendas_vendedor(void) {
+    int codigo, i, TAMANHO_CARROS, TAMANHO_VENDAS;
+    FILE * automoveisFile, * vendasFile;
+    
+    printf("\n\n\tINFORME O CODIGO DO VENDEDOR: ");
+    read_int(&codigo);
 
+    if (!vendedor_valido(codigo)) {
+        return;
+    }
+    
+    if ((vendasFile = fopen(ARQ_VENDAS, "rb")) == NULL) {
+        printf("\n\n\tERRO: Algo de errado com seu arquivo %s, por favor verifique e tente novamente!\n", ARQ_VENDAS);
+        pausarTela();
+        return;
+    }
+    if ((automoveisFile = fopen(ARQ_AUTOMOVEIS, "rb")) == NULL) {
+        printf("\n\n\tERRO: Algo de errado com seu arquivo %s, por favor verifique e tente novamente!\n", ARQ_AUTOMOVEIS);
+        fclose(vendasFile);
+        pausarTela();
+        return;
+    }
+
+    // Move o ponteiro de posição para o final do arquivo
+    fseek(vendasFile, 0, SEEK_END);
+    // Calcula-se o tamanha do vetor de vendas cadastrados
+    TAMANHO_VENDAS = ftell(vendasFile) / sizeof(venda);
+    venda vendas[TAMANHO_VENDAS];
+
+    fseek(automoveisFile, 0, SEEK_END);
+    TAMANHO_CARROS = ftell(automoveisFile) / sizeof(automovel);
+    automovel carros[TAMANHO_CARROS];
+
+    // Retornar o ponteiro de leitura para o começo do arquivo
+    rewind(vendasFile);
+    fread(vendas, sizeof(venda), TAMANHO_VENDAS, vendasFile);
+    fclose(vendasFile);
+
+    rewind(automoveisFile);
+    fread(carros, sizeof(automovel), TAMANHO_CARROS, automoveisFile);
+    fclose(automoveisFile);
+
+    ordenar_vendas(TAMANHO_VENDAS, vendas);
+
+    float vendasTotaisMes = 0.0;
+    printf("\tDATA DA VENDA\t\tMARCA\t\tMODELO\t\tPRECO\n");
+    printf("\t------------------------------------------------------------------------------------------------------------------------------------\n");
+    for (i = 0; i < TAMANHO_VENDAS; i++) {
+        if (vendas[i].cod_vendedor == codigo) {
+            int id_carro = vendas[i].cod_automovel-1; // Pega a posição do carro segundo o que foi cadastrado na venda
+
+            // Informações da venda
+            printf("\t%02d/%02d/%d", vendas[i].dt.dia, vendas[i].dt.mes, vendas[i].dt.ano);
+            
+            // Informações do carro
+            printf("\t\t%s\t\t%s\t\t%.2f\n", carros[id_carro].marca, carros[id_carro].modelo, carros[id_carro].preco);
+            printf("\t------------------------------------------------------------------------------------------------------------------------------------\n");
+            vendasTotaisMes += carros[id_carro].preco;
+        }
+    }
+    printf("\tTOTAL DO MES\t\t\t\t\t\t%.2f\n\n", vendasTotaisMes);
+    pausarTela();
 }
 
 void listar_vendas_mes(void) {
@@ -108,7 +168,7 @@ void listar_vendas_mes(void) {
     // Retornar o ponteiro de leitura para o começo do arquivo
     rewind(vendasFile);
     fread(vendas, sizeof(venda), TAMANHO_VENDAS, vendasFile);
-    fclose(vendedoresFile);
+    fclose(vendasFile);
     
     rewind(vendedoresFile);
     fread(vendedores, sizeof(vendedor), TAMANHO_VENDEDORES, vendedoresFile);
@@ -132,11 +192,6 @@ void listar_vendas_mes(void) {
             
             // Informações do carro
             printf("\t\t%s\t\t%s\t\t%.2f", carros[id_carro].marca, carros[id_carro].modelo, carros[id_carro].preco);
-            
-            // Informações do vendedor
-            char nome[42];
-            pegar_nome_vendedor(vendas[i].cod_vendedor, nome);
-            printf("\t%s\n", nome);
             printf("\t------------------------------------------------------------------------------------------------------------------------------------\n");
             vendasTotaisMes += carros[id_carro].preco;
         }

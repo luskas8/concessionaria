@@ -133,38 +133,13 @@ bool vendedor_valido(int codigo) {
 
     // Caso o codigo seja menos que 1 ou o fim do arquivo seja excedido
     if (codigo < 1 || feof(vendedorFile)) {
-        printf("\tERRO: Vendedor com codigo invalido, por favor tente um valido.\n");
         fclose(vendedorFile);
+        printf("\tERRO: Vendedor com codigo invalido, por favor tente um valido.\n");
         pausarTela();
         return false;
     } else {
         printf("VENDEDOR: %s\n\n", v.nome);
-
         fclose(vendedorFile);
         return true;
     };
-}
-
-void pegar_nome_vendedor(int codigo, char nome[]) {
-    vendedor v;
-    FILE * vendedorFile;
-    // Verifica se há algo de errado com o arquivo
-    if ((vendedorFile = fopen(ARQ_VENDEDORES, "r+b")) == NULL) {
-        printf("\n\n\tERRO: Algo de errado com seu arquivo %s, por favor verifique e tente novamente!\n", ARQ_VENDEDORES);
-        pausarTela();
-        return;
-    }
-
-    fseek(vendedorFile, (codigo - 1) * sizeof(vendedor), SEEK_SET); // Coloca o ponteiro de leitura no fim do vendedor anterior ao que deseja alterar
-    fread(&v, sizeof(vendedor), 1, vendedorFile); // Lê-se os dados do vendedor de código especificado
-
-    if (codigo < 1 || feof(vendedorFile)) {
-        printf("\tERRO: Vendedor com codigo invalido, por favor tente um valido.\n");
-        fclose(vendedorFile);
-        pausarTela();
-        return;
-    } else {
-        strcpy(nome, v.nome);
-        return;
-    }
 }

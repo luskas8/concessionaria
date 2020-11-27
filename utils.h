@@ -6,13 +6,21 @@
  * 
  * Ciência da Computação
  * 
- * 21/11/2020
+ * 27/11/2020
 */
 
 #ifndef _UTILS_H
 #define _UTILS_H
-#include <conio.h>
+#include <stdbool.h>
+#define MAX_LENGTH 120
 
 /* Aguada o usuário pressionar qualquer tecla para continuar execussão do programa */
 void pausarTela(void);
+
+/* Função recebe um vetor de caracter e seu inteiro de tamanho e lê as informações digitadas
+   na linha */
+void read_line (char line[], int max_length);
+
+bool read_int (int * var);
+
 #endif

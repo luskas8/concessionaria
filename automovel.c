@@ -7,7 +7,7 @@
  * 
  * Ciência da Computação
  * 
- * 24/11/2020
+ * 27/11/2020
 */
 
 #include <stdio.h>
@@ -30,9 +30,9 @@ void cadastrar_automovel(void) {
     carro.vendido = false;
 
     printf("Marca do carro: ");
-    scanf(" %20[^\n]", &carro.marca);
+    read_line(carro.marca, 21);
     printf("Modelo do carro: ");
-    scanf(" %20[^\n]", &carro.modelo);
+    read_line(carro.modelo, 21);
     printf("Ano do carro: ");
     scanf("%d", &carro.ano);
     printf("Preco do carro: ");
@@ -131,10 +131,10 @@ void listar_automoveis_a_venda(void) {
     }
 
     printf("\tGostaria de salvar em arquivo? [S]im | [N]ao\n");
-    char ch;
-    scanf(" \t%c", &ch);
+    char op;
+    read_line(&op, 1);
 
-    if (ch == 'S' || ch == 's') {
+    if (op == 'S' || op == 's') {
         fprintf(carrosAVendidosFile, "Codigo\t\tMarca\t\t\t\t\tModelo\t\t\t\t\tPreco\n");
         fprintf(carrosAVendidosFile, "------------------------------------------------------------------------\n");
         for (i = 0; i < j; i++) {
@@ -159,7 +159,7 @@ void alterar_automovel(void) {
 
     int codigo;
     printf("\n\n\tINFORME O CODIGO DO CARRO A SE ALTERAR: ");
-    scanf("%d", &codigo);
+    read_int(&codigo);
     
     fseek(automoveisFile, (codigo - 1) * sizeof(automovel), SEEK_SET); // Coloca o ponteiro de leitura no fim do automovel anterior ao que deseja alterar
     fread(&carro, sizeof(automovel), 1, automoveisFile); // Lê-se os dados do automovel de código especificado
@@ -179,15 +179,11 @@ void alterar_automovel(void) {
         char novaMarca[21], novoModelo[21];
         float novoPreco;
         printf("\tAlterar marca: ");
-        scanf(" %20[^\n]", &novaMarca);
+        read_line(carro.marca, 21);
         printf("\tAlterar modelo: ");
-        scanf(" %20[^\n]", &novoModelo);
+        read_line(carro.modelo, 21);
         printf("\tAlterar preco: ");
-        scanf("%f", &novoPreco);
-
-        // Coloca os novos dados na estrutura de automovel
-        strcpy(carro.marca, novaMarca); strcpy(carro.modelo, novoModelo);
-        carro.preco = novoPreco;
+        scanf("%f", &carro.preco);
         
         fseek(automoveisFile, -sizeof(automovel), SEEK_CUR);
         if (fwrite(&carro, sizeof(automovel), 1, automoveisFile) < 1) { // Altera no arquivo o automovel desejado

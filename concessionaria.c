@@ -14,14 +14,14 @@
  * 
  * Ciência da Computação
  * 
- * 21/11/2020
+ * 27/11/2020
  */
 
 #include <stdio.h>
 #include "utils.h"
 #include "automovel.h"
-#include "vendedor.h"
-#include "venda.h"
+// #include "vendedor.h"
+// #include "venda.h"
 
 enum menu_opcoes {
  CAD_AUTOMOVEL = 1,
@@ -71,28 +71,29 @@ int main() {
             case LIST_AUTOS_A_VENDA:
                 listar_automoveis_a_venda();
             break;
-            case CAD_VENDEDOR:
-                cadastrar_vendedor();
-            break;
-            case ALT_VENDEDOR:
-                alterar_vendedor();
-            break;
-            case LIST_VENDEDOR:
-                listar_vendedores();
-            break;
-            case CAD_VENDA:
-                cadastrar_venda();
-            break;
-            case LIST_VENDAS_MES:
-                listar_vendas_mes();
-            break;
-            case LIST_VENDAS_VENDEDOR:
-                listar_vendas_vendedor();
-            break;
+            // case CAD_VENDEDOR:
+            //     cadastrar_vendedor();
+            // break;
+            // case ALT_VENDEDOR:
+            //     alterar_vendedor();
+            // break;
+            // case LIST_VENDEDOR:
+            //     listar_vendedores();
+            // break;
+            // case CAD_VENDA:
+            //     cadastrar_venda();
+            // break;
+            // case LIST_VENDAS_MES:
+            //     listar_vendas_mes();
+            // break;
+            // case LIST_VENDAS_VENDEDOR:
+            //     listar_vendas_vendedor();
+            // break;
             case SAIR:
             break;
             default:
                 printf("\n\tOpcao invalida!\n");
+                pausarTela();
         } // fim do switch
     } while (op != SAIR);
 
@@ -108,6 +109,6 @@ int menu(char * opcoes[], int num) {
 
     printf("\t%2d - %s\n", SAIR, opcoes[i]);
     printf("\tOpcao: ");
-    scanf("%d", &op);
+    read_int(&op);
     return op;
 }

@@ -7,7 +7,7 @@
  * 
  * Ciência da Computação
  * 
- * 24/11/2020
+ * 27/11/2020
 */
 
 #include <stdio.h>
@@ -28,21 +28,23 @@ void cadastrar_venda(void) {
     fseek(vendaFile, 0, SEEK_END);
 
     printf("Codigo do automovel: ");
-    scanf("%d", &v.cod_automovel);
+    read_int(&v.cod_automovel);
     if (!automovel_valido(v.cod_automovel)) {
         fclose(vendaFile);
         return;
     }
 
     printf("Codigo do vendedor: ");
-    scanf("%d", &v.cod_vendedor);
+    read_int(&v.cod_vendedor);
     if (!vendedor_valido(v.cod_vendedor)) {
         fclose(vendaFile);
         return;
     }
 
-    printf("Data da venda: <dd/mm/aaaa>\n");
-    scanf("%d/%d/%d", &v.dt.dia, &v.dt.mes, &v.dt.ano);
+    printf("\tData da venda\n");
+    printf("Dia: "); read_int(&v.dt.dia);
+    printf("Mes: "); read_int(&v.dt.mes);
+    printf("Ano: "); read_int(&v.dt.ano);
     
     vender_automovel(v.cod_automovel); // Altera o status de vendido desse automovel
 
@@ -57,7 +59,11 @@ void listar_vendas_vendedor(void) {
 void listar_vendas_mes(void) {
     printf("Informe o mes e ano da venda: <mm/aaaa>\n");
     int i, mes, ano, TAMANHO_VENDAS, TAMANHO_VENDEDORES, TAMANHO_CARROS;
-    scanf("%d/%d", &mes, &ano);
+
+    // READ_INT alterado para formato necessário
+    char line[MAX_LENGTH+1];
+    read_line(line, MAX_LENGTH);
+    sscanf(line, "%d/%d", &mes, &ano);
 
     if (mes < 1 || mes > 12) {
         printf("\n\n\tERRO: Mes invalido, por favor verifique e tente novamente!\n");
@@ -123,8 +129,13 @@ void listar_vendas_mes(void) {
         if (mes == vendas[i].dt.mes && ano == vendas[i].dt.ano) {
             int id_carro = vendas[i].cod_automovel-1, id_vendedor = vendas[i].cod_vendedor-1; // Pega a posição do carro segundo o que foi cadastrado na venda
 
-            printf("\t%02d/%02d/%d", vendas[i].dt.dia, vendas[i].dt.mes, vendas[i].dt.ano); // Informações da venda
+            // Informações da venda
+            printf("\t%02d/%02d/%d", vendas[i].dt.dia, vendas[i].dt.mes, vendas[i].dt.ano);
+            
+            // Informações do carro
             printf("\t\t%-21s\t\t%-21s\t\t%.2f", carros[id_carro].marca, carros[id_carro].modelo, carros[id_carro].preco);
+            
+            // Informações do vendedor
             printf("\t\t%d\t\t%s\t|\t%s\n", vendas[i].cod_vendedor-1, vendedores[vendas[i].cod_vendedor].nome, vendedores[id_vendedor].nome);
             printf("\t------------------------------------------------------------------------------------------------------------------------------------\n");
             vendasTotaisMes += carros[id_carro].preco;

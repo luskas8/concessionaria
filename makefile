@@ -8,8 +8,8 @@
 # 24/11/2020
 
 # Criação do executavel, .exe, do sistema da concessionaria
-concessionaria: concessionaria.c automovel.o vendedor.o utils.o automovel.h vendedor.h utils.h
-	gcc -o concessionaria concessionaria.c automovel.o vendedor.o utils.o
+concessionaria: concessionaria.c automovel.o vendedor.o venda.o utils.o automovel.h vendedor.h venda.h utils.h
+	gcc -o concessionaria concessionaria.c automovel.o vendedor.o venda.o utils.o
 
 # Criação dos modulos do sitema, arquivos .o
 
@@ -22,5 +22,5 @@ automovel.o: automovel.c automovel.h utils.h
 vendedor.o: vendedor.c vendedor.h utils.h
 	gcc -c vendedor.c
 
-# venda.o: venda.c venda.h utils.h
-# 	gcc -c venda.c
+venda.o: venda.c venda.h utils.h
+	gcc -c venda.c

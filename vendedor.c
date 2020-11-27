@@ -67,7 +67,7 @@ void listar_vendedores(void) {
     int i;
     for (i = 0; i < TAMANHO; i++) {
         // Lista os dados do vendedor i
-        printf("\t%d\t\t%s\n", vendedores[i].codigo, vendedores[i].nome);
+        printf("\t%03d\t\t%s\n", vendedores[i].codigo, vendedores[i].nome);
         printf("\t---------------------------------------\n");
     }
     pausarTela();
@@ -143,4 +143,28 @@ bool vendedor_valido(int codigo) {
         fclose(vendedorFile);
         return true;
     };
+}
+
+void pegar_nome_vendedor(int codigo, char nome[]) {
+    vendedor v;
+    FILE * vendedorFile;
+    // Verifica se há algo de errado com o arquivo
+    if ((vendedorFile = fopen(ARQ_VENDEDORES, "r+b")) == NULL) {
+        printf("\n\n\tERRO: Algo de errado com seu arquivo %s, por favor verifique e tente novamente!\n", ARQ_VENDEDORES);
+        pausarTela();
+        return;
+    }
+
+    fseek(vendedorFile, (codigo - 1) * sizeof(vendedor), SEEK_SET); // Coloca o ponteiro de leitura no fim do vendedor anterior ao que deseja alterar
+    fread(&v, sizeof(vendedor), 1, vendedorFile); // Lê-se os dados do vendedor de código especificado
+
+    if (codigo < 1 || feof(vendedorFile)) {
+        printf("\tERRO: Vendedor com codigo invalido, por favor tente um valido.\n");
+        fclose(vendedorFile);
+        pausarTela();
+        return;
+    } else {
+        strcpy(nome, v.nome);
+        return;
+    }
 }

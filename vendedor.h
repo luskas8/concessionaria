@@ -37,4 +37,6 @@ void listar_vendedores(void);
 /* função que recebe um inteiro e retorna se é um código de vendedor cadastrado ou não */
 bool vendedor_valido(int);
 
+void pegar_nome_vendedor(int, char[]);
+
 #endif

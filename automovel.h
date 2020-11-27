@@ -17,7 +17,6 @@
 #ifndef _AUTOMOVEL_H
 #define _AUTOMOVEL_H
 #include <stdbool.h>
-#include <string.h>
 #include "utils.h"
 #define ARQ_AUTOMOVEIS "automoveis.dat"
 #define ARQ_A_VENDA "avenda.txt"

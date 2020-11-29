@@ -88,14 +88,9 @@ void alterar_vendedor(void) {
         return;
     }
 
-    if (!vendedor_valido(codigo)) {
+    if (!vendedor_valido(codigo, &v)) {
         printf("\tERRO: Vendedor com codigo invalido! A alteracao NAO pode ser concluida.\n");
     } else {
-        // Coloca o ponteiro de leitura no fim do vendedor anterior ao que deseja alterar
-        fseek(vendedorFile, (codigo - 1) * sizeof(vendedor), SEEK_SET);
-        
-        // Lê-se os dados do vendedor de código especificado
-        fread(&v, sizeof(vendedor), 1, vendedorFile); 
         printf("\tCodigo\t\tNome\n");
         printf("\t---------------------------------------\n");
         printf("\t%06d\t\t%s\n", v.codigo, v.nome);
@@ -105,7 +100,8 @@ void alterar_vendedor(void) {
         printf("Alterar nome: ");
         read_line(v.nome, 41);
 
-        fseek(vendedorFile, -sizeof(vendedor), SEEK_CUR);
+        // Coloca o ponteiro de leitura no fim do vendedor anterior ao que deseja alterar
+        fseek(vendedorFile, (codigo - 1) * sizeof(vendedor), SEEK_SET);
         if (fwrite(&v, sizeof(vendedor), 1, vendedorFile) < 1) {
             printf("\tERRO: NAO foi possivel alterar o vendedor.\n");
         } else {
@@ -116,8 +112,7 @@ void alterar_vendedor(void) {
     fclose(vendedorFile);
 }
 
-bool vendedor_valido(int codigo) {
-    vendedor v;
+bool vendedor_valido(int codigo, vendedor * v) {
     FILE * vendedorFile;
     // Verifica se há algo de errado com o arquivo
     if ((vendedorFile = fopen(ARQ_VENDEDORES, "rb")) == NULL) {
@@ -128,9 +123,9 @@ bool vendedor_valido(int codigo) {
 
     fseek(vendedorFile, (codigo - 1) * sizeof(vendedor), SEEK_SET);
     // Lê-se os dados do vendedor de código especificado
-    fread(&v, sizeof(vendedor), 1, vendedorFile); 
+    fread(v, sizeof(vendedor), 1, vendedorFile);
     fclose(vendedorFile);
     
     // Caso o codigo seja menos que 1 ou o fim do arquivo seja excedido
-    return codigo < 1 || v.codigo != codigo ? false : true;
+    return codigo < 1 || v->codigo != codigo ? false : true;
 }

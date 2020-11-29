@@ -42,21 +42,27 @@ void cadastrar_venda(void) {
         pausarTela();
         return;
     } else {
-        printf("\n\tCodigo\t\tMarca\t\tModelo\t\tAno\tPreco\n");
+        printf("\n\tMarca\t\tModelo\t\tAno\tPreco\n");
         printf("\t------------------------------------------------------------------------\n");
-        printf("\t%06d\t\t%-16s%s\t\t%4d\t%.2f\n", 
-          c.codigo, c.marca, c.modelo, c.ano, c.preco
+        printf("\t%-16s%s\t\t%4d\t%.2f\n", 
+          c.marca, c.modelo, c.ano, c.preco
         );
         printf("\t------------------------------------------------------------------------\n");
     }
 
     printf("Codigo do vendedor: ");
     read_int(&v.cod_vendedor);
-    if (!vendedor_valido(v.cod_vendedor)) {
+    vendedor vendedorV;
+    if (!vendedor_valido(v.cod_vendedor, &vendedorV)) {
         printf("\tERRO: Vendedor com codigo invalido. Compra NAO cadastrada.\n");
         fclose(vendaFile);
         pausarTela();
         return;
+    } else {
+        printf("\tNome\n");
+        printf("\t---------------------------------------\n");
+        printf("\t%s\n", vendedorV.nome);
+        printf("\t---------------------------------------\n");
     }
 
     printf("Data da venda (yyyy/mm/dd): ");
@@ -77,8 +83,8 @@ void listar_vendas_vendedor(void) {
     
     printf("\n\n\tINFORME O CODIGO DO VENDEDOR: ");
     read_int(&codigo);
-
-    if (!vendedor_valido(codigo)) {
+    vendedor vendedorV;
+    if (!vendedor_valido(codigo, &vendedorV)) {
       printf("\tERRO: O codigo digitado e' invalido. Listagem NAO pode ser concluida.\n");
       pausarTela();
       return;

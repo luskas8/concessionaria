@@ -34,7 +34,7 @@ void alterar_vendedor(void);
 /* função que lista todos os vendedores */
 void listar_vendedores(void);
 
-/* função que recebe um inteiro e retorna se é um código de vendedor cadastrado ou não */
-bool vendedor_valido(int);
+/* função que recebe um inteiro e um ponteiro de vendedor e retorna se é um código de vendedor cadastrado ou não */
+bool vendedor_valido(int, vendedor *);
 
 #endif

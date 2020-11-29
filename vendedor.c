@@ -72,6 +72,13 @@ void listar_vendedores(void) {
 }
 
 void alterar_vendedor(void) {
+    int codigo;
+    printf("\n- ALTERANDO UM VENDEDOR\n\n");
+    printf("Nao deseja estar aqui? Entre com '-1' para voltar ao menu principal.\n\n");
+    printf("Codigo do vendedor: ");
+    read_int(&codigo);
+    if (codigo == -1) return;
+
     vendedor v;
     FILE * vendedorFile;
     // Verifica se há algo de errado com o arquivo
@@ -81,12 +88,8 @@ void alterar_vendedor(void) {
         return;
     }
 
-    int codigo;
-    printf("\n\n\tINFORME O CODIGO DO VENDEDOR A SE ALTERAR: ");
-    read_int(&codigo);
-
     if (!vendedor_valido(codigo)) {
-        printf("\tERRO: Vendedor com codigo invalido, por favor tente um valido.\n");
+        printf("\tERRO: Vendedor com codigo invalido! A alteracao NAO pode ser concluida.\n");
     } else {
         // Coloca o ponteiro de leitura no fim do vendedor anterior ao que deseja alterar
         fseek(vendedorFile, (codigo - 1) * sizeof(vendedor), SEEK_SET);
@@ -123,12 +126,11 @@ bool vendedor_valido(int codigo) {
         return false;
     }
 
-    // Coloca o ponteiro de leitura no fim do vendedor anterior ao que deseja alterar
     fseek(vendedorFile, (codigo - 1) * sizeof(vendedor), SEEK_SET);
     // Lê-se os dados do vendedor de código especificado
     fread(&v, sizeof(vendedor), 1, vendedorFile); 
     fclose(vendedorFile);
     
     // Caso o codigo seja menos que 1 ou o fim do arquivo seja excedido
-    return codigo < 1 || feof(vendedorFile) ? false : true;
+    return codigo < 1 || v.codigo != codigo ? false : true;
 }

@@ -14,6 +14,7 @@
 #include "automovel.h"
 
 void cadastrar_automovel(void) {
+  
     automovel carro;
     FILE * automoveisFile;
     // Verifica se há algo de errado com o arquivo
@@ -167,6 +168,14 @@ void listar_automoveis_a_venda(void) {
 }
 
 void alterar_automovel(void) {
+
+    int codigo;
+    printf("- ALTERANDO UM AUTOMOVEL\n\n");
+    printf("Nao deseja estar aqui? Entre com '-1' para voltar ao menu principal.\n\n");
+    printf("Codigo do automovel: ");
+    read_int(&codigo);
+    if (codigo == -1) return;
+
     automovel carro;
     FILE * automoveisFile;
     if ((automoveisFile = fopen(ARQ_AUTOMOVEIS, "r+b")) == NULL) {
@@ -175,13 +184,9 @@ void alterar_automovel(void) {
         return;
     }
 
-    int codigo;
-    printf("\n\n\tINFORME O CODIGO DO CARRO A SE ALTERAR: ");
-    read_int(&codigo);
-
     // Caso o codigo seja menos que 1 ou o fim do arquivo seja excedido
     if (!automovel_valido(codigo)) {
-        printf("\tERRO: Carro com codigo invalido, por favor tente novamente.\n");
+        printf("\tERRO: Automovel com codigo invalido, por favor tente novamente.\n");
     } else {
         // Coloca o ponteiro de leitura no fim do automovel anterior ao que deseja alterar
         fseek(automoveisFile, (codigo - 1) * sizeof(automovel), SEEK_SET); 
@@ -200,16 +205,16 @@ void alterar_automovel(void) {
         read_line(carro.marca, 21);
         printf("\tAlterar modelo: ");
         read_line(carro.modelo, 21);
-        printf("\tAno do carro: ");
+        printf("\tAno do automovel: ");
         read_int(&carro.ano);
         printf("\tAlterar preco: ");
         read_float(&carro.preco);
         
         fseek(automoveisFile, -sizeof(automovel), SEEK_CUR);
         if (fwrite(&carro, sizeof(automovel), 1, automoveisFile) < 1) {
-            printf("\tERRO: NAO foi possivel alterar as informacoes do carro.\n");
+            printf("\tERRO: NAO foi possivel alterar as informacoes do automovel.\n");
         } else {
-            printf("\tSUCESSO: Carro alterado!\n");
+            printf("\tSUCESSO: Automovel alterado!\n");
         }
     }
     
@@ -268,20 +273,13 @@ void vender_automovel(int codigo) {
         pausarTela();
         return;
     }
-
-    // Caso o codigo seja menos que 1 ou o fim do arquivo seja excedido
-    if (!automovel_valido(codigo)) {
-        printf("\tERRO: Carro com codigo invalido, por favor tente um valido.\n");
-        pausarTela();
-    } else {
-        // Coloca o ponteiro de leitura no fim do automovel anterior ao que deseja alterar
-        fseek(automoveisFile, (codigo - 1) * sizeof(automovel), SEEK_SET); 
-        // Lê-se os dados do automovel de código especificado
-        fread(&carro, sizeof(automovel), 1, automoveisFile); 
-        carro.vendido = true;
-        fseek(automoveisFile, -sizeof(automovel), SEEK_CUR);
-        // Altera no arquivo o automovel desejado
-        fwrite(&carro, sizeof(automovel), 1, automoveisFile); 
-    }
+    // Coloca o ponteiro de leitura no fim do automovel anterior ao que deseja alterar
+    fseek(automoveisFile, (codigo - 1) * sizeof(automovel), SEEK_SET); 
+    // Lê-se os dados do automovel de código especificado
+    fread(&carro, sizeof(automovel), 1, automoveisFile); 
+    carro.vendido = true;
+    fseek(automoveisFile, -sizeof(automovel), SEEK_CUR);
+    // Altera no arquivo o automovel desejado
+    fwrite(&carro, sizeof(automovel), 1, automoveisFile); 
     fclose(automoveisFile);
 }

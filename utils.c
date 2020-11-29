@@ -14,7 +14,7 @@
 #include "utils.h"
 
 void pausarTela(void) {
-    printf("\tPressione ENTER para continuar...\n");
+    printf("\tPressione ENTER para voltar ao menu...\n");
     char ch;
     read_line(&ch, 1);
 }

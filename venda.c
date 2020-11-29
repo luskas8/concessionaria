@@ -26,9 +26,14 @@ void cadastrar_venda(void) {
 
     // Move o ponteiro de posição para o final do arquivo
     fseek(vendaFile, 0, SEEK_END);
-
+    printf("- CADASTRANDO UMA VENDA\n\n");
+    printf("Nao deseja estar aqui? Entre com '-1' para voltar ao menu principal.\n\n");
     printf("Codigo do automovel: ");
     read_int(&v.cod_automovel);
+    if (v.cod_automovel == -1) {
+      fclose(vendaFile);
+      return;
+    }
     if (!automovel_valido(v.cod_automovel)) {
         printf("\tERRO: Carro com codigo invalido. Compra NAO cadastrada.\n");
         fclose(vendaFile);
@@ -65,7 +70,7 @@ void listar_vendas_vendedor(void) {
     read_int(&codigo);
 
     if (!vendedor_valido(codigo)) {
-      printf("\tERRO: Vendedor com codigo invalido. Listagem NAO pode ser concluida.\n");
+      printf("\tERRO: O codigo digitado e' invalido. Listagem NAO pode ser concluida.\n");
       pausarTela();
       return;
     }
@@ -150,26 +155,26 @@ void listar_vendas_mes(void) {
     read_line(line, MAX_LENGTH);
     sscanf(line, "%d/%d", &ano, &mes);
 
-    if (mes < 1 || mes > 12) {
-        printf("\n\n\tERRO: Mes invalido, por favor verifique e tente novamente!\n");
+    if (mes < 1 || mes > 12 || ano > 2020) {
+        printf("\tERRO: Data invalida! A listagem NAO pode ser concluida.\n");
         pausarTela();
         return;
     }
 
     FILE * vendasFile, * automoveisFile, * vendedoresFile;
     if ((vendasFile = fopen(ARQ_VENDAS, "rb")) == NULL) {
-        printf("\n\n\tERRO: O arquivo %s NAO pode ser encontrado!\n", ARQ_VENDAS);
+        printf("\tERRO: O arquivo %s NAO pode ser encontrado!\n", ARQ_VENDAS);
         pausarTela();
         return;
     }
     if ((vendedoresFile = fopen(ARQ_VENDEDORES, "rb")) == NULL) {
-        printf("\n\n\tERRO: O arquivo %s NAO pode ser encontrado!\n", ARQ_VENDEDORES);
+        printf("\tERRO: O arquivo %s NAO pode ser encontrado!\n", ARQ_VENDEDORES);
         fclose(vendasFile);
         pausarTela();
         return;
     }
     if ((automoveisFile = fopen(ARQ_AUTOMOVEIS, "rb")) == NULL) {
-        printf("\n\n\tERRO: O arquivo %s NAO pode ser encontrado!\n", ARQ_AUTOMOVEIS);
+        printf("\tERRO: O arquivo %s NAO pode ser encontrado!\n", ARQ_AUTOMOVEIS);
         fclose(vendasFile);
         fclose(vendedoresFile);
         pausarTela();

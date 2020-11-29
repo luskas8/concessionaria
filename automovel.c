@@ -71,12 +71,18 @@ void listar_todos_automoveis(void) {
     ordenar_automoveis(TAMANHO, carros);
 
     printf("\n\n\t\tLISTA DE CARROS CADASTRADOS\n\n");
-    printf("\tCodigo\t\tMarca\t\t\t\tModelo\t\t\t\tPreco\n");
+    printf("\tCodigo\t\tMarca\t\t\tModelo\t\t     Ano\tPreco\n");
     printf("\t----------------------------------------------------------------------------------------------\n");
     int i;
     for (i = 0; i < TAMANHO; i++) {
         // Lista as informações do automovel i
-        printf("\t%03d\t\t%-21s\t\t%-21s\t\t%.2f\n", carros[i].codigo, carros[i].marca, carros[i].modelo, carros[i].preco);
+        printf("\t%03d\t\t%-21s\t%-21s%4d\t%.2f\n", 
+          carros[i].codigo, 
+          carros[i].marca, 
+          carros[i].modelo, 
+          carros[i].ano,
+          carros[i].preco
+        );
         printf("\t----------------------------------------------------------------------------------------------\n");
     }
     fclose(automoveisFile);
@@ -109,7 +115,7 @@ void listar_automoveis_a_venda(void) {
     rewind(automoveisFile);
     fread(carros, sizeof(automovel), TAMANHO, automoveisFile);
 
-    int i, j = 0;
+    int i, j = 0, tamCarrosAVenda;
     for (i = 0; i < TAMANHO; i++) {
         if (!carros[i].vendido) {
             // Coloca o carro i na posição j do vetor de carros a vendidos
@@ -118,18 +124,21 @@ void listar_automoveis_a_venda(void) {
     }
     fclose(automoveisFile);
 
+    tamCarrosAVenda = j;
+
     // Ordena os carros em ordem crescente de preço
     ordenar_automoveis(j, carrosAVenda);
 
     printf("\n\n\t\tLISTA DE CARROS A VENDA\n\n");
-    printf("\tCodigo\t\tMarca\t\t\t\tModelo\t\t\t\tPreco\n");
+    printf("\tCodigo\t\tMarca\t\t\tModelo\t\t     Ano\tPreco\n");
     printf("\t----------------------------------------------------------------------------------------------\n");
     for (i = 0; i < j; i++) {
-        printf("\t%03d\t\t%-21s\t\t%-21s\t\t%.2f\n", 
-          carrosAVenda[i].codigo, 
-          carrosAVenda[i].marca, 
-          carrosAVenda[i].modelo, 
-          carrosAVenda[i].preco
+        printf("\t%06d\t\t%-21s\t%-21s%4d\t%.2f\n", 
+          carros[i].codigo, 
+          carros[i].marca, 
+          carros[i].modelo, 
+          carros[i].ano,
+          carros[i].preco
         );
         printf("\t----------------------------------------------------------------------------------------------\n");
     }
@@ -139,18 +148,17 @@ void listar_automoveis_a_venda(void) {
     read_line(&op, 1);
 
     if (op == 'S' || op == 's') {
-        fprintf(carrosAVendaFile, "Codigo\t\tMarca\t\t\t\t\tModelo\t\t\t\t\tPreco\n");
-        fprintf(carrosAVendaFile, "------------------------------------------------------------------------\n");
-        for (i = 0; i < j; i++) {
-            // Escreve no arquivo as informações do automovel i a venda
-            fprintf(carrosAVendaFile, 
-              "%03d\t\t\t%-21s\t%-21s\t%.2f\n", 
-              carrosAVenda[i].codigo, 
-              carrosAVenda[i].marca, 
-              carrosAVenda[i].modelo, 
-              carrosAVenda[i].preco
-            );
-            fprintf(carrosAVendaFile, "------------------------------------------------------------------------\n");
+        fprintf(carrosAVendaFile, "\tCodigo\t\tMarca\t\t\t\t\t\t\t\t Modelo\t\t\t\t\t\t\t\tAno\t\t\t\t\tPreco\n");
+        fprintf(carrosAVendaFile, "\t----------------------------------------------------------------------------------------------\n");
+        for (i = 0; i < tamCarrosAVenda; i++) {
+          fprintf(carrosAVendaFile, "\t%06d\t\t%-21s%-21s%4d\t\t\t\t%.2f\n", 
+            carros[i].codigo, 
+            carros[i].marca, 
+            carros[i].modelo, 
+            carros[i].ano,
+            carros[i].preco
+          );
+          fprintf(carrosAVendaFile, "\t----------------------------------------------------------------------------------------------\n");
         }
     }
     
@@ -179,10 +187,10 @@ void alterar_automovel(void) {
         fseek(automoveisFile, (codigo - 1) * sizeof(automovel), SEEK_SET); 
         // Lê-se os dados do automovel de código especificado e os armazena na variavel carro
         fread(&carro, sizeof(automovel), 1, automoveisFile); 
-        printf("\tCodigo\t\tMarca\t\tModelo\t\tPreco\n");
+        printf("\tCodigo\t\tMarca\t\tModelo\t\tAno\tPreco\n");
         printf("\t------------------------------------------------------------------------\n");
-        printf("\t%d\t\t%s\t\t%s\t\t%.2f\n", 
-          carro.codigo, carro.marca, carro.modelo, carro.preco
+        printf("\t%06d\t\t%s\t\t%s\t\t%4d\t%.2f\n", 
+          carro.codigo, carro.marca, carro.modelo, carro.ano, carro.preco
         );
         printf("\t------------------------------------------------------------------------\n");
 
@@ -192,7 +200,7 @@ void alterar_automovel(void) {
         read_line(carro.marca, 21);
         printf("\tAlterar modelo: ");
         read_line(carro.modelo, 21);
-        printf("Ano do carro: ");
+        printf("\tAno do carro: ");
         read_int(&carro.ano);
         printf("\tAlterar preco: ");
         read_float(&carro.preco);

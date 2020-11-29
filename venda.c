@@ -104,7 +104,7 @@ void listar_vendas_vendedor(void) {
 
     float valorVendasTotais = 0.0;
     printf("\tDATA DA VENDA\t\tMARCA\t\tMODELO\t\tPRECO\n");
-    printf("\t------------------------------------------------------------------------------------------------------------------------------------\n");
+    printf("\t---------------------------------------------------------------------------------------\n");
     for (i = 0; i < TAMANHO_VENDAS; i++) {
         if (vendas[i].cod_vendedor == codigo) {
             int id_carro = vendas[i].cod_automovel-1; // Pega a posição do carro
@@ -115,7 +115,7 @@ void listar_vendas_vendedor(void) {
               carros[id_carro].modelo, 
               carros[id_carro].preco
             );
-            printf("\t------------------------------------------------------------------------------------------------------------------------------------\n");
+            printf("\t---------------------------------------------------------------------------------------\n");
             valorVendasTotais += carros[id_carro].preco;
         }
     }
@@ -189,19 +189,21 @@ void listar_vendas_mes(void) {
 
     float vendasTotaisMes = 0.0;
     printf("\tDATA DA VENDA\t\tMARCA\t\tMODELO\t\tPRECO\t\tVENDEDOR\n");
-    printf("\t------------------------------------------------------------------------------------------------------------------------------------\n");
+    printf("\t---------------------------------------------------------------------------------------\n");
     for (i = 0; i < TAMANHO_VENDAS; i++) {
         if (mes == vendas[i].dt.mes && ano == vendas[i].dt.ano) {
             int id_carro = vendas[i].cod_automovel-1;
+            int id_vendedor = vendas[i].cod_vendedor-1;
 
             printf("\t%02d/%02d/%d", vendas[i].dt.dia, vendas[i].dt.mes, vendas[i].dt.ano);
             
-            printf("\t\t%s\t\t%s\t\t%.2f", 
+            printf("\t\t%s\t\t%s\t\t%.2f\t%s\n", 
               carros[id_carro].marca, 
               carros[id_carro].modelo, 
-              carros[id_carro].preco
+              carros[id_carro].preco,
+              vendedores[id_vendedor].nome
             );
-            printf("\t------------------------------------------------------------------------------------------------------------------------------------\n");
+            printf("\t---------------------------------------------------------------------------------------\n");
             vendasTotaisMes += carros[id_carro].preco;
         }
     }

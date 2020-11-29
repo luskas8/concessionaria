@@ -60,7 +60,7 @@ void listar_vendedores(void) {
     fread(vendedores, sizeof(vendedor), TAMANHO, vendedorFile);
     fclose(vendedorFile);
 
-    printf("\n\n\t\tLISTA DE VENDEDORES CADASTRADOS\n\n");
+    printf("\n\n\tLISTA DE VENDEDORES CADASTRADOS\n\n");
     printf("\tCodigo\t\tNome\n");
     printf("\t---------------------------------------\n");
     for (int i = 0; i < TAMANHO; i++) {

@@ -132,7 +132,7 @@ void listar_vendas_vendedor(void) {
             int id_vendedor = vendas[i].cod_vendedor-1;
 
             printf("\t%02d/%02d/%d", vendas[i].dt.dia, vendas[i].dt.mes, vendas[i].dt.ano);            
-            printf("\t%-15s %s\t\t%.2f\t%s\n", 
+            printf("\t%-15s %s\t\t%-11.2f\t%-21s\n", 
               carros[id_carro].marca, 
               carros[id_carro].modelo, 
               carros[id_carro].preco,
@@ -220,7 +220,7 @@ void listar_vendas_mes(void) {
 
             printf("\t%02d/%02d/%d", vendas[i].dt.dia, vendas[i].dt.mes, vendas[i].dt.ano);
             
-            printf("\t%-16s%s\t\t%.2f\t%s\n", 
+            printf("\t%-16s%s\t\t%-11.2f\t%-21s\n",
               carros[id_carro].marca, 
               carros[id_carro].modelo, 
               carros[id_carro].preco,
@@ -240,11 +240,11 @@ void ordenar_vendas(int tamanho, venda v[]) {
 
 int compara(data a, data b) {
     // Transforma a data em um numero inteiro para melhor comparação
-    int fimA = ( ( (a.dia * 100) + a.mes) * 10000) + a.ano;
-    int fimB = ( ( (b.dia * 100) + b.mes) * 10000) + b.ano;
+    int dtA = ( ( (a.dia * 100) + a.mes) * 10000) + a.ano;
+    int dtB = ( ( (b.dia * 100) + b.mes) * 10000) + b.ano;
 
-    if (fimA < fimB) return -1;
-    if (fimA == fimB) return 0;
+    if (dtA < dtB) return -1;
+    if (dtA == dtB) return (dtB - dtA);
     return 1;
 }
 

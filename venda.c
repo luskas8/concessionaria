@@ -34,11 +34,20 @@ void cadastrar_venda(void) {
       fclose(vendaFile);
       return;
     }
-    if (!automovel_valido(v.cod_automovel)) {
+
+    automovel c;
+    if (!automovel_valido(v.cod_automovel, &c)) {
         printf("\tERRO: Carro com codigo invalido. Compra NAO cadastrada.\n");
         fclose(vendaFile);
         pausarTela();
         return;
+    } else {
+        printf("\n\tCodigo\t\tMarca\t\tModelo\t\tAno\tPreco\n");
+        printf("\t------------------------------------------------------------------------\n");
+        printf("\t%06d\t\t%-16s%s\t\t%4d\t%.2f\n", 
+          c.codigo, c.marca, c.modelo, c.ano, c.preco
+        );
+        printf("\t------------------------------------------------------------------------\n");
     }
 
     printf("Codigo do vendedor: ");

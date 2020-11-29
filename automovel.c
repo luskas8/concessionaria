@@ -185,13 +185,9 @@ void alterar_automovel(void) {
     }
 
     // Caso o codigo seja menos que 1 ou o fim do arquivo seja excedido
-    if (!automovel_valido(codigo)) {
+    if (!automovel_valido(codigo, &carro)) {
         printf("\tERRO: Automovel com codigo invalido, por favor tente novamente.\n");
-    } else {
-        // Coloca o ponteiro de leitura no fim do automovel anterior ao que deseja alterar
-        fseek(automoveisFile, (codigo - 1) * sizeof(automovel), SEEK_SET); 
-        // Lê-se os dados do automovel de código especificado e os armazena na variavel carro
-        fread(&carro, sizeof(automovel), 1, automoveisFile); 
+    } else {        
         printf("\n\tCodigo\t\tMarca\t\tModelo\t\tAno\tPreco\n");
         printf("\t------------------------------------------------------------------------\n");
         printf("\t%06d\t\t%-16s%s\t\t%4d\t%.2f\n", 
@@ -210,7 +206,7 @@ void alterar_automovel(void) {
         printf("\tAlterar preco: ");
         read_float(&carro.preco);
         
-        fseek(automoveisFile, -sizeof(automovel), SEEK_CUR);
+        fseek(automoveisFile, (codigo - 1) * sizeof(automovel), SEEK_SET);
         if (fwrite(&carro, sizeof(automovel), 1, automoveisFile) < 1) {
             printf("\tERRO: NAO foi possivel alterar as informacoes do automovel.\n");
         } else {
@@ -247,8 +243,7 @@ void quicksort(automovel a[], int inicio, int fim) {
     if (i < fim) quicksort(a, i, fim);
 }
 
-bool automovel_valido(int codigo) {
-    automovel carro;
+bool automovel_valido(int codigo, automovel *c) {
     FILE * automoveisFile;
     if ((automoveisFile = fopen(ARQ_AUTOMOVEIS, "rb")) == NULL) {
         printf("\n\n\tERRO: O arquivo %s NAO pode ser encontrado!\n", ARQ_AUTOMOVEIS);
@@ -259,7 +254,7 @@ bool automovel_valido(int codigo) {
     // Coloca o ponteiro de leitura no fim do automovel anterior ao que deseja alterar
     fseek(automoveisFile, (codigo - 1) * sizeof(automovel), SEEK_SET);
     // Lê-se os dados do automovel de código especificado
-    fread(&carro, sizeof(automovel), 1, automoveisFile); 
+    fread(c, sizeof(automovel), 1, automoveisFile);
 
     fclose(automoveisFile);
     return codigo < 1 || feof(automoveisFile) ? false : true;

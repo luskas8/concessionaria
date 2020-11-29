@@ -1,11 +1,11 @@
 /* venda.c
  *
- * Modulo de imprementação das funções de venda
+ * Modulo de implementação das funções de venda
  *
  * Artur Freire dos Santos
  * Lucas Silva dos Anjos
  * 
- * Ciência da Computação
+ * Ciências da Computação
  * 
  * 27/11/2020
 */
@@ -19,7 +19,7 @@ void cadastrar_venda(void) {
     FILE * vendaFile;
     // Verifica se há algo de errado com o arquivo
     if ((vendaFile = fopen(ARQ_VENDAS, "r+b")) == NULL) {
-        printf("\n\n\tERRO: Algo de errado com seu arquivo %s, por favor verifique e tente novamente!\n", ARQ_VENDAS);
+        printf("\n\n\tERRO: O arquivo %s NAO pode ser encontrado!\n", ARQ_VENDAS);
         pausarTela();
         return;
     }
@@ -30,14 +30,18 @@ void cadastrar_venda(void) {
     printf("Codigo do automovel: ");
     read_int(&v.cod_automovel);
     if (!automovel_valido(v.cod_automovel)) {
+        printf("\tERRO: Carro com codigo invalido. Compra NAO cadastrada.\n");
         fclose(vendaFile);
+        pausarTela();
         return;
     }
 
     printf("Codigo do vendedor: ");
     read_int(&v.cod_vendedor);
     if (!vendedor_valido(v.cod_vendedor)) {
+        printf("\tERRO: Vendedor com codigo invalido. Compra NAO cadastrada.\n");
         fclose(vendaFile);
+        pausarTela();
         return;
     }
 
@@ -60,16 +64,18 @@ void listar_vendas_vendedor(void) {
     read_int(&codigo);
 
     if (!vendedor_valido(codigo)) {
-        return;
+      printf("\tERRO: Vendedor com codigo invalido. Listagem NAO pode ser concluida.\n");
+      pausarTela();
+      return;
     }
     
     if ((vendasFile = fopen(ARQ_VENDAS, "rb")) == NULL) {
-        printf("\n\n\tERRO: Algo de errado com seu arquivo %s, por favor verifique e tente novamente!\n", ARQ_VENDAS);
+        printf("\n\n\tERRO: O arquivo %s NAO pode ser encontrado!\n", ARQ_VENDAS);
         pausarTela();
         return;
     }
     if ((automoveisFile = fopen(ARQ_AUTOMOVEIS, "rb")) == NULL) {
-        printf("\n\n\tERRO: Algo de errado com seu arquivo %s, por favor verifique e tente novamente!\n", ARQ_AUTOMOVEIS);
+        printf("\n\n\tERRO: O arquivo %s NAO pode ser encontrado!\n", ARQ_AUTOMOVEIS);
         fclose(vendasFile);
         pausarTela();
         return;
@@ -101,13 +107,14 @@ void listar_vendas_vendedor(void) {
     printf("\t------------------------------------------------------------------------------------------------------------------------------------\n");
     for (i = 0; i < TAMANHO_VENDAS; i++) {
         if (vendas[i].cod_vendedor == codigo) {
-            int id_carro = vendas[i].cod_automovel-1; // Pega a posição do carro segundo o que foi cadastrado na venda
+            int id_carro = vendas[i].cod_automovel-1; // Pega a posição do carro
 
-            // Informações da venda
-            printf("\t%02d/%02d/%d", vendas[i].dt.dia, vendas[i].dt.mes, vendas[i].dt.ano);
-            
-            // Informações do carro
-            printf("\t\t%s\t\t%s\t\t%.2f\n", carros[id_carro].marca, carros[id_carro].modelo, carros[id_carro].preco);
+            printf("\t%02d/%02d/%d", vendas[i].dt.dia, vendas[i].dt.mes, vendas[i].dt.ano);            
+            printf("\t\t%s\t\t%s\t\t%.2f\n", 
+              carros[id_carro].marca, 
+              carros[id_carro].modelo, 
+              carros[id_carro].preco
+            );
             printf("\t------------------------------------------------------------------------------------------------------------------------------------\n");
             valorVendasTotais += carros[id_carro].preco;
         }
@@ -133,18 +140,18 @@ void listar_vendas_mes(void) {
 
     FILE * vendasFile, * automoveisFile, * vendedoresFile;
     if ((vendasFile = fopen(ARQ_VENDAS, "rb")) == NULL) {
-        printf("\n\n\tERRO: Algo de errado com seu arquivo %s, por favor verifique e tente novamente!\n", ARQ_VENDAS);
+        printf("\n\n\tERRO: O arquivo %s NAO pode ser encontrado!\n", ARQ_VENDAS);
         pausarTela();
         return;
     }
     if ((vendedoresFile = fopen(ARQ_VENDEDORES, "rb")) == NULL) {
-        printf("\n\n\tERRO: Algo de errado com seu arquivo %s, por favor verifique e tente novamente!\n", ARQ_VENDEDORES);
+        printf("\n\n\tERRO: O arquivo %s NAO pode ser encontrado!\n", ARQ_VENDEDORES);
         fclose(vendasFile);
         pausarTela();
         return;
     }
     if ((automoveisFile = fopen(ARQ_AUTOMOVEIS, "rb")) == NULL) {
-        printf("\n\n\tERRO: Algo de errado com seu arquivo %s, por favor verifique e tente novamente!\n", ARQ_AUTOMOVEIS);
+        printf("\n\n\tERRO: O arquivo %s NAO pode ser encontrado!\n", ARQ_AUTOMOVEIS);
         fclose(vendasFile);
         fclose(vendedoresFile);
         pausarTela();
@@ -185,13 +192,15 @@ void listar_vendas_mes(void) {
     printf("\t------------------------------------------------------------------------------------------------------------------------------------\n");
     for (i = 0; i < TAMANHO_VENDAS; i++) {
         if (mes == vendas[i].dt.mes && ano == vendas[i].dt.ano) {
-            int id_carro = vendas[i].cod_automovel-1; // Pega a posição do carro segundo o que foi cadastrado na venda
+            int id_carro = vendas[i].cod_automovel-1;
 
-            // Informações da venda
             printf("\t%02d/%02d/%d", vendas[i].dt.dia, vendas[i].dt.mes, vendas[i].dt.ano);
             
-            // Informações do carro
-            printf("\t\t%s\t\t%s\t\t%.2f", carros[id_carro].marca, carros[id_carro].modelo, carros[id_carro].preco);
+            printf("\t\t%s\t\t%s\t\t%.2f", 
+              carros[id_carro].marca, 
+              carros[id_carro].modelo, 
+              carros[id_carro].preco
+            );
             printf("\t------------------------------------------------------------------------------------------------------------------------------------\n");
             vendasTotaisMes += carros[id_carro].preco;
         }

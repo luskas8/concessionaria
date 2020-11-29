@@ -1,7 +1,6 @@
 /* venda.h
  *
- * Define o tipo venda e os protótipos das operações realizadas sobre
- * esse tipo.
+ * Defininição de tipos e protótipos das funções
  *
  * Ciro Cirne Trindade
  * 19/11/2020
@@ -9,7 +8,7 @@
  * Artur Freire dos Santos
  * Lucas Silva dos Anjos
  * 
- * Ciência da Computação
+ * Ciências da Computação
  * 
  * 24/11/2020
  */
@@ -26,9 +25,9 @@ typedef struct {
 } data;
 
 typedef struct {
-    int cod_automovel; // código do automóvel
-    int cod_vendedor; // código do vendedor
-    data dt; // data da venda
+    int cod_automovel;
+    int cod_vendedor;
+    data dt;
 } venda;
 
 /* função que cadastra uma venda no arquivo */

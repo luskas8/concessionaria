@@ -5,7 +5,7 @@
  * Artur Freire dos Santos
  * Lucas Silva dos Anjos
  * 
- * Ciência da Computação
+ * Ciências da Computação
  * 
  * 27/11/2020
 */
@@ -114,6 +114,7 @@ void alterar_vendedor(void) {
 }
 
 bool vendedor_valido(int codigo) {
+    vendedor v;
     FILE * vendedorFile;
     // Verifica se há algo de errado com o arquivo
     if ((vendedorFile = fopen(ARQ_VENDEDORES, "rb")) == NULL) {
@@ -124,6 +125,8 @@ bool vendedor_valido(int codigo) {
 
     // Coloca o ponteiro de leitura no fim do vendedor anterior ao que deseja alterar
     fseek(vendedorFile, (codigo - 1) * sizeof(vendedor), SEEK_SET);
+    // Lê-se os dados do vendedor de código especificado
+    fread(&v, sizeof(vendedor), 1, vendedorFile); 
     fclose(vendedorFile);
     
     // Caso o codigo seja menos que 1 ou o fim do arquivo seja excedido

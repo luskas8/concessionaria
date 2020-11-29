@@ -1,12 +1,11 @@
 /* utils.c
  *
- * Implementação de funções uteis para o sistema usadas
- * com frequência
+ * Implementação de funções utilitárias para o sistema
  * 
  * Artur Freire dos Santos
  * Lucas Silva dos Anjos
  * 
- * Ciência da Computação
+ * Ciências da Computação
  * 
  * 27/11/2020
 */

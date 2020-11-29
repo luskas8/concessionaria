@@ -1,11 +1,11 @@
 /* utils.h
  *
- * Protótipo das funções 'uteis' do sitema
+ * Protótipo das funções utilitárias do sitema
  * 
  * Artur Freire dos Santos
  * Lucas Silva dos Anjos
  * 
- * Ciência da Computação
+ * Ciências da Computação
  * 
  * 27/11/2020
 */

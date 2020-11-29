@@ -65,7 +65,7 @@ void listar_vendedores(void) {
     printf("\t---------------------------------------\n");
     for (int i = 0; i < TAMANHO; i++) {
         // Lista os dados do vendedor i
-        printf("\t%03d\t\t%s\n", vendedores[i].codigo, vendedores[i].nome);
+        printf("\t%06d\t\t%s\n", vendedores[i].codigo, vendedores[i].nome);
         printf("\t---------------------------------------\n");
     }
     pausarTela();
@@ -95,7 +95,7 @@ void alterar_vendedor(void) {
         fread(&v, sizeof(vendedor), 1, vendedorFile); 
         printf("\tCodigo\t\tNome\n");
         printf("\t---------------------------------------\n");
-        printf("\t%d\t\t%s\n", v.codigo, v.nome);
+        printf("\t%06d\t\t%s\n", v.codigo, v.nome);
         printf("\t---------------------------------------\n");
 
         char novoNome[41];

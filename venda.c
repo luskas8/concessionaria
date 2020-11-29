@@ -45,20 +45,21 @@ void cadastrar_venda(void) {
         return;
     }
 
-    printf("\tData da venda\n");
-    printf("Dia: "); read_int(&v.dt.dia);
-    printf("Mes: "); read_int(&v.dt.mes);
-    printf("Ano: "); read_int(&v.dt.ano);
+    printf("Data da venda (yyyy/mm/dd): ");
+    scanf("%d/%d/%d", &v.dt.ano, &v.dt.mes, &v.dt.dia);
     
     vender_automovel(v.cod_automovel); // Altera o status de vendido desse automovel
 
     fwrite(&v, sizeof(venda), 1, vendaFile);
     fclose(vendaFile);
+
+    printf("\nVenda realizada com sucesso!\n");
+    pausarTela();getchar();
 }
 
 void listar_vendas_vendedor(void) {
-    int codigo, i, TAMANHO_CARROS, TAMANHO_VENDAS;
-    FILE * automoveisFile, * vendasFile;
+    int codigo, i, TAMANHO_CARROS, TAMANHO_VENDAS, TAMANHO_VENDEDORES;
+    FILE * automoveisFile, * vendasFile, * vendedoresFile;
     
     printf("\n\n\tINFORME O CODIGO DO VENDEDOR: ");
     read_int(&codigo);
@@ -81,6 +82,13 @@ void listar_vendas_vendedor(void) {
         return;
     }
 
+    if ((vendedoresFile = fopen(ARQ_VENDEDORES, "rb")) == NULL) {
+      printf("\n\n\tERRO: O arquivo %s NAO pode ser encontrado!\n", ARQ_AUTOMOVEIS);
+      fclose(vendasFile);
+      pausarTela();
+      return;
+    }
+
     // Move o ponteiro de posição para o final do arquivo
     fseek(vendasFile, 0, SEEK_END);
     // Calcula-se o tamanha do vetor de vendas cadastrados
@@ -91,6 +99,10 @@ void listar_vendas_vendedor(void) {
     TAMANHO_CARROS = ftell(automoveisFile) / sizeof(automovel);
     automovel carros[TAMANHO_CARROS];
 
+    fseek(vendedoresFile, 0, SEEK_END);
+    TAMANHO_VENDEDORES = ftell(vendedoresFile) / sizeof(vendedor);
+    vendedor vendedores[TAMANHO_VENDEDORES];
+
     // Retornar o ponteiro de leitura para o começo do arquivo
     rewind(vendasFile);
     fread(vendas, sizeof(venda), TAMANHO_VENDAS, vendasFile);
@@ -100,37 +112,43 @@ void listar_vendas_vendedor(void) {
     fread(carros, sizeof(automovel), TAMANHO_CARROS, automoveisFile);
     fclose(automoveisFile);
 
+    rewind(vendedoresFile);
+    fread(vendedores, sizeof(vendedores), TAMANHO_VENDEDORES, vendedoresFile);
+    fclose(vendedoresFile);
+
     ordenar_vendas(TAMANHO_VENDAS, vendas);
 
     float valorVendasTotais = 0.0;
-    printf("\tDATA DA VENDA\t\tMARCA\t\tMODELO\t\tPRECO\n");
+    printf("\n\tDATA DA VENDA\tMARCA\t\tMODELO\t\tPRECO\t\tVENDEDOR\n");
     printf("\t---------------------------------------------------------------------------------------\n");
     for (i = 0; i < TAMANHO_VENDAS; i++) {
         if (vendas[i].cod_vendedor == codigo) {
-            int id_carro = vendas[i].cod_automovel-1; // Pega a posição do carro
+            int id_carro = vendas[i].cod_automovel-1; 
+            int id_vendedor = vendas[i].cod_vendedor-1;
 
             printf("\t%02d/%02d/%d", vendas[i].dt.dia, vendas[i].dt.mes, vendas[i].dt.ano);            
-            printf("\t\t%s\t\t%s\t\t%.2f\n", 
+            printf("\t%-15s %s\t\t%.2f\t%s\n", 
               carros[id_carro].marca, 
               carros[id_carro].modelo, 
-              carros[id_carro].preco
+              carros[id_carro].preco,
+              vendedores[id_vendedor].nome
             );
             printf("\t---------------------------------------------------------------------------------------\n");
             valorVendasTotais += carros[id_carro].preco;
         }
     }
-    printf("\tTOTAL DO MES\t\t\t\t\t\t%.2f\n\n", valorVendasTotais);
+    printf("\tTOTAL DO MES\t\t\t\t\t%.2f\n\n", valorVendasTotais);
     pausarTela();
 }
 
 void listar_vendas_mes(void) {
-    printf("Informe o mes e ano da venda: <mm/aaaa>\n");
+    printf("Informe o mes e ano da venda (yyyy/mm): ");
     int i, mes, ano, TAMANHO_VENDAS, TAMANHO_VENDEDORES, TAMANHO_CARROS;
 
     // READ_INT alterado para formato necessário
     char line[MAX_LENGTH+1];
     read_line(line, MAX_LENGTH);
-    sscanf(line, "%d/%d", &mes, &ano);
+    sscanf(line, "%d/%d", &ano, &mes);
 
     if (mes < 1 || mes > 12) {
         printf("\n\n\tERRO: Mes invalido, por favor verifique e tente novamente!\n");
@@ -188,7 +206,7 @@ void listar_vendas_mes(void) {
     ordenar_vendas(TAMANHO_VENDAS, vendas);
 
     float vendasTotaisMes = 0.0;
-    printf("\tDATA DA VENDA\t\tMARCA\t\tMODELO\t\tPRECO\t\tVENDEDOR\n");
+    printf("\n\tDATA DA VENDA\tMARCA\t\tMODELO\t\tPRECO\t\tVENDEDOR\n");
     printf("\t---------------------------------------------------------------------------------------\n");
     for (i = 0; i < TAMANHO_VENDAS; i++) {
         if (mes == vendas[i].dt.mes && ano == vendas[i].dt.ano) {
@@ -197,7 +215,7 @@ void listar_vendas_mes(void) {
 
             printf("\t%02d/%02d/%d", vendas[i].dt.dia, vendas[i].dt.mes, vendas[i].dt.ano);
             
-            printf("\t\t%s\t\t%s\t\t%.2f\t%s\n", 
+            printf("\t%-16s%s\t\t%.2f\t%s\n", 
               carros[id_carro].marca, 
               carros[id_carro].modelo, 
               carros[id_carro].preco,
@@ -207,7 +225,7 @@ void listar_vendas_mes(void) {
             vendasTotaisMes += carros[id_carro].preco;
         }
     }
-    printf("\tTOTAL DO MES\t\t\t\t\t\t%.2f\n\n", vendasTotaisMes);
+    printf("\tTOTAL DO MES\t\t\t\t\t%.2f\n\n", vendasTotaisMes);
     pausarTela();
 }
 

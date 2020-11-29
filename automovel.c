@@ -134,11 +134,11 @@ void listar_automoveis_a_venda(void) {
     printf("\t----------------------------------------------------------------------------------------------\n");
     for (i = 0; i < j; i++) {
         printf("\t%06d\t\t%-21s\t%-21s%4d\t%.2f\n", 
-          carros[i].codigo, 
-          carros[i].marca, 
-          carros[i].modelo, 
-          carros[i].ano,
-          carros[i].preco
+          carrosAVenda[i].codigo, 
+          carrosAVenda[i].marca, 
+          carrosAVenda[i].modelo, 
+          carrosAVenda[i].ano,
+          carrosAVenda[i].preco
         );
         printf("\t----------------------------------------------------------------------------------------------\n");
     }
@@ -187,9 +187,9 @@ void alterar_automovel(void) {
         fseek(automoveisFile, (codigo - 1) * sizeof(automovel), SEEK_SET); 
         // Lê-se os dados do automovel de código especificado e os armazena na variavel carro
         fread(&carro, sizeof(automovel), 1, automoveisFile); 
-        printf("\tCodigo\t\tMarca\t\tModelo\t\tAno\tPreco\n");
+        printf("\n\tCodigo\t\tMarca\t\tModelo\t\tAno\tPreco\n");
         printf("\t------------------------------------------------------------------------\n");
-        printf("\t%06d\t\t%s\t\t%s\t\t%4d\t%.2f\n", 
+        printf("\t%06d\t\t%-16s%s\t\t%4d\t%.2f\n", 
           carro.codigo, carro.marca, carro.modelo, carro.ano, carro.preco
         );
         printf("\t------------------------------------------------------------------------\n");

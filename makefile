@@ -1,6 +1,6 @@
 # makefile
 
-# Arthur Freire
+# Artur Freire dos Santos
 # Lucas Silva dos Anjos
 
 # Ciência da Computação

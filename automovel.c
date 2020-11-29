@@ -2,7 +2,7 @@
  *
  * Modulo de imprementação das funções de automoveis
  *
- * Artur Freire
+ * Artur Freire dos Santos
  * Lucas Silva dos Anjos
  * 
  * Ciência da Computação

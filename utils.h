@@ -2,6 +2,7 @@
  *
  * Protótipo das funções 'uteis' do sitema
  * 
+ * Artur Freire dos Santos
  * Lucas Silva dos Anjos
  * 
  * Ciência da Computação
@@ -14,10 +15,10 @@
 #include <stdbool.h>
 #define MAX_LENGTH 120
 
-/* Aguada o usuário pressionar qualquer tecla para continuar execussão do programa */
+/* Aguada o usuário pressionar qualquer tecla para continuar execução do programa */
 void pausarTela(void);
 
-/* Função recebe um vetor de caracter e seu inteiro de tamanho e lê as informações digitadas
+/* Função recebe um vetor de caractere e seu inteiro de tamanho e lê as informações digitadas
    na linha */
 void read_line (char line[], int max_length);
 

@@ -3,6 +3,7 @@
  * Implementação de funções uteis para o sistema usadas
  * com frequência
  * 
+ * Artur Freire dos Santos
  * Lucas Silva dos Anjos
  * 
  * Ciência da Computação
@@ -17,10 +18,9 @@ void pausarTela(void) {
     printf("\tPressione ENTER para continuar...\n");
     char ch;
     read_line(&ch, 1);
-
 }
 
-void read_line (char line[], int max_length) {
+void read_line(char line[], int max_length) {
     int i = 0;
     char ch;
 

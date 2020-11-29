@@ -9,7 +9,7 @@
  * Aquivos disponibilizados pelo prof Ciro:
  *  concessionaria.c automovel.h venda.h vendedor.h
  * 
- * Arthur Freire
+ * Artur Freire dos Santos
  * Lucas Silva dos Anjos
  * 
  * Ciência da Computação

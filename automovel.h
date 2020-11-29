@@ -6,7 +6,7 @@
  * Ciro Cirne Trindade
  * 19/11/2020
  * 
- * Arthur Freire
+ * Artur Freire dos Santos
  * Lucas Silva dos Anjos
  * 
  * Ciência da Computação

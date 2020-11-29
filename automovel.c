@@ -149,10 +149,10 @@ void listar_automoveis_a_venda(void) {
     read_line(&op, 1);
 
     if (op == 'S' || op == 's') {
-        fprintf(carrosAVendaFile, "\tCodigo\t\tMarca\t\t\t\t\t\t\t\t Modelo\t\t\t\t\t\t\t\tAno\t\t\t\t\tPreco\n");
+        fprintf(carrosAVendaFile, "\tCodigo\t\tMarca\t\t\t\t Modelo\t\t\t\t  Ano\t\tPreco\n");
         fprintf(carrosAVendaFile, "\t----------------------------------------------------------------------------------------------\n");
         for (i = 0; i < tamCarrosAVenda; i++) {
-          fprintf(carrosAVendaFile, "\t%06d\t\t%-21s%-21s%4d\t\t\t\t%.2f\n", 
+          fprintf(carrosAVendaFile, "\t%06d\t\t%-21s%-21s%4d\t\t%.2f\n", 
             carros[i].codigo, 
             carros[i].marca, 
             carros[i].modelo, 

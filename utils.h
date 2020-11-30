@@ -14,6 +14,8 @@
 #define _UTILS_H
 #include <stdbool.h>
 #define MAX_LENGTH 120
+# define ERR_OPEN_ARC "\n\n\tERRO: O arquivo %s NAO foi encontrado no diretorio atual!\nPor favor crie-o.\n"
+# define CURR_YEAR 2020
 
 /* Aguada o usuário pressionar qualquer tecla para continuar execução do programa */
 void pausarTela(void);

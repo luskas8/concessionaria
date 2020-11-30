@@ -1,5 +1,9 @@
 *.o
 *.exe
+
 concessionaria
+
+*.dat
+*.txt
 
 .vscode

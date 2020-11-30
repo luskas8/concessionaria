@@ -17,9 +17,8 @@
 void cadastrar_venda(void) {
     venda v;
     FILE * vendaFile;
-    // Verifica se há algo de errado com o arquivo
     if ((vendaFile = fopen(ARQ_VENDAS, "r+b")) == NULL) {
-        printf("\n\n\tERRO: O arquivo %s NAO pode ser encontrado!\n", ARQ_VENDAS);
+        printf(ERR_OPEN_ARC, ARQ_VENDAS);
         pausarTela();
         return;
     }
@@ -44,7 +43,7 @@ void cadastrar_venda(void) {
     } else {
         if (c.vendido) {
             // Caso status de vendido do automovel seja verdadeiro, a venda é cancelada
-            printf("\tERRO: Automovel ja' vendido. Venda NAO cadastrada\n");
+            printf("\tERRO: Automovel ja' vendido. Venda NAO cadastrada.\n");
             fclose(vendaFile);
             pausarTela();
             return;
@@ -99,19 +98,19 @@ void listar_vendas_vendedor(void) {
     }
     
     if ((vendasFile = fopen(ARQ_VENDAS, "rb")) == NULL) {
-        printf("\n\n\tERRO: O arquivo %s NAO pode ser encontrado!\n", ARQ_VENDAS);
+        printf(ERR_OPEN_ARC, ARQ_VENDAS);
         pausarTela();
         return;
     }
     if ((automoveisFile = fopen(ARQ_AUTOMOVEIS, "rb")) == NULL) {
-        printf("\n\n\tERRO: O arquivo %s NAO pode ser encontrado!\n", ARQ_AUTOMOVEIS);
+        printf(ERR_OPEN_ARC, ARQ_AUTOMOVEIS);
         fclose(vendasFile);
         pausarTela();
         return;
     }
 
     if ((vendedoresFile = fopen(ARQ_VENDEDORES, "rb")) == NULL) {
-      printf("\n\n\tERRO: O arquivo %s NAO pode ser encontrado!\n", ARQ_AUTOMOVEIS);
+      printf(ERR_OPEN_ARC, ARQ_AUTOMOVEIS);
       fclose(vendasFile);
       pausarTela();
       return;
@@ -178,7 +177,7 @@ void listar_vendas_mes(void) {
     read_line(line, MAX_LENGTH);
     sscanf(line, "%d/%d", &ano, &mes);
 
-    if (mes < 1 || mes > 12 || ano > 2020) {
+    if (mes < 1 || mes > 12 || ano > CURR_YEAR) {
         printf("\tERRO: Data invalida! A listagem NAO pode ser concluida.\n");
         pausarTela();
         return;
@@ -186,27 +185,25 @@ void listar_vendas_mes(void) {
 
     FILE * vendasFile, * automoveisFile, * vendedoresFile;
     if ((vendasFile = fopen(ARQ_VENDAS, "rb")) == NULL) {
-        printf("\tERRO: O arquivo %s NAO pode ser encontrado!\n", ARQ_VENDAS);
+        printf(ERR_OPEN_ARC, ARQ_VENDAS);
         pausarTela();
         return;
     }
     if ((vendedoresFile = fopen(ARQ_VENDEDORES, "rb")) == NULL) {
-        printf("\tERRO: O arquivo %s NAO pode ser encontrado!\n", ARQ_VENDEDORES);
+        printf(ERR_OPEN_ARC, ARQ_VENDEDORES);
         fclose(vendasFile);
         pausarTela();
         return;
     }
     if ((automoveisFile = fopen(ARQ_AUTOMOVEIS, "rb")) == NULL) {
-        printf("\tERRO: O arquivo %s NAO pode ser encontrado!\n", ARQ_AUTOMOVEIS);
+        printf(ERR_OPEN_ARC, ARQ_AUTOMOVEIS);
         fclose(vendasFile);
         fclose(vendedoresFile);
         pausarTela();
         return;
     }
 
-    // Move o ponteiro de posição para o final do arquivo
     fseek(vendasFile, 0, SEEK_END);
-    // Calcula-se o tamanha do vetor de vendas cadastrados
     TAMANHO_VENDAS = ftell(vendasFile) / sizeof(venda);
     venda vendas[TAMANHO_VENDAS];
 
@@ -218,7 +215,6 @@ void listar_vendas_mes(void) {
     TAMANHO_CARROS = ftell(automoveisFile) / sizeof(automovel);
     automovel carros[TAMANHO_CARROS];
 
-    // Retornar o ponteiro de leitura para o começo do arquivo
     rewind(vendasFile);
     fread(vendas, sizeof(venda), TAMANHO_VENDAS, vendasFile);
     fclose(vendasFile);

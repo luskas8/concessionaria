@@ -18,7 +18,7 @@ void cadastrar_vendedor(void) {
     FILE * vendedorFile;
     // Verifica se há algo de errado com o arquivo
     if ((vendedorFile = fopen(ARQ_VENDEDORES, "r+b")) == NULL) {
-        printf("\n\n\tERRO: O arquivo %s NAO pode ser encontrado!\n", ARQ_VENDEDORES);
+        printf(ERR_OPEN_ARC, ARQ_VENDEDORES);
         pausarTela();
         return;
     }
@@ -44,18 +44,17 @@ void listar_vendedores(void) {
     FILE * vendedorFile;
     // Verifica se há algo de errado com o arquivo
     if ((vendedorFile = fopen(ARQ_VENDEDORES, "rb")) == NULL) {
-        printf("\n\n\tERRO: O arquivo %s NAO pode ser encontrado!\n", ARQ_VENDEDORES);
+        printf(ERR_OPEN_ARC, ARQ_VENDEDORES);
         pausarTela();
         return;
     }
 
     // Move o ponteiro de posição para o final do arquivo
     fseek(vendedorFile, 0, SEEK_END);
-    // Calcula-se o tamanha do vetor de vendedores cadastrados
+
     int TAMANHO = ftell(vendedorFile) / sizeof(vendedor);
     vendedor vendedores[TAMANHO];
 
-    // Retornar o ponteiro de leitura para o começo do arquivo
     rewind(vendedorFile);
     fread(vendedores, sizeof(vendedor), TAMANHO, vendedorFile);
     fclose(vendedorFile);
@@ -81,9 +80,9 @@ void alterar_vendedor(void) {
 
     vendedor v;
     FILE * vendedorFile;
-    // Verifica se há algo de errado com o arquivo
+    
     if ((vendedorFile = fopen(ARQ_VENDEDORES, "r+b")) == NULL) {
-        printf("\n\n\tERRO: O arquivo %s NAO pode ser encontrado!\n", ARQ_VENDEDORES);
+        printf(ERR_OPEN_ARC, ARQ_VENDEDORES);
         pausarTela();
         return;
     }
@@ -116,7 +115,7 @@ bool vendedor_valido(int codigo, vendedor * v) {
     FILE * vendedorFile;
     // Verifica se há algo de errado com o arquivo
     if ((vendedorFile = fopen(ARQ_VENDEDORES, "rb")) == NULL) {
-        printf("\n\n\tERRO: O arquivo %s NAO pode ser encontrado!\n", ARQ_VENDEDORES);
+        printf(ERR_OPEN_ARC, ARQ_VENDEDORES);
         pausarTela();
         return false;
     }

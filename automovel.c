@@ -14,36 +14,32 @@
 #include "automovel.h"
 
 void cadastrar_automovel(void) {
-  
     automovel carro;
     FILE * automoveisFile;
-    // Verifica se há algo de errado com o arquivo
     if ((automoveisFile = fopen(ARQ_AUTOMOVEIS, "r+b")) == NULL) {
-        printf("\n\n\tERRO: O arquivo %s NAO pode ser encontrado!\n", ARQ_AUTOMOVEIS);
+        printf(ERR_OPEN_ARC, ARQ_AUTOMOVEIS);
         pausarTela();
         return;
     }
 
-    // Move o ponteiro de posição para o final do arquivo
     fseek(automoveisFile, 0, SEEK_END);
     // Encontra-se o ultimo carro cadastrado e cria-se este novo carro na próxima posição
     carro.codigo = ftell(automoveisFile) / sizeof(automovel) + 1;
     carro.vendido = false;
 
-    printf("Marca do carro: ");
+    printf("Marca do automovel: ");
     read_line(carro.marca, 21);
-    printf("Modelo do carro: ");
+    printf("Modelo do automovel: ");
     read_line(carro.modelo, 21);
-    printf("Ano do carro: ");
+    printf("Ano do automovel: ");
     read_int(&carro.ano);
-    printf("Preco do carro: ");
+    printf("Preco do automovel: ");
     read_float(&carro.preco);
 
-    // Escreve no arquivo as informações desse novo carro
     if (fwrite(&carro, sizeof(automovel), 1, automoveisFile) < 1) {
-        printf("\tERRO: NAO foi possivel cadastrar o carro.\n");
+        printf("\tERRO: NAO foi possivel cadastrar o automovel.\n");
     } else {
-        printf("\tSUCESSO: Carro cadastrado!\n");
+        printf("\tSUCESSO: Automovel cadastrado!\n");
     }
 
     pausarTela();
@@ -53,18 +49,15 @@ void cadastrar_automovel(void) {
 void listar_todos_automoveis(void) {
     FILE * automoveisFile;
     if ((automoveisFile = fopen(ARQ_AUTOMOVEIS, "rb")) == NULL) {
-        printf("\n\n\tERRO: O arquivo %s NAO pode ser encontrado!\n", ARQ_AUTOMOVEIS);
+        printf(ERR_OPEN_ARC, ARQ_AUTOMOVEIS);
         pausarTela();
         return;
     }
     
-    // Move o ponteiro de posição para o final do arquivo
     fseek(automoveisFile, 0, SEEK_END);
-    // Calcula-se o tamanha do vetor de carros cadastrados
     int TAMANHO = ftell(automoveisFile) / sizeof(automovel);
     automovel carros[TAMANHO];
     
-    // Retornar o ponteiro de leitura para o começo do arquivo
     rewind(automoveisFile);
     fread(carros, sizeof(automovel), TAMANHO, automoveisFile);
 
@@ -76,7 +69,6 @@ void listar_todos_automoveis(void) {
     printf("\t----------------------------------------------------------------------------------------------\n");
     int i;
     for (i = 0; i < TAMANHO; i++) {
-        // Lista as informações do automovel i
         printf("\t%03d\t\t%-21s\t%-21s%4d\t%.2f\n", 
           carros[i].codigo, 
           carros[i].marca, 
@@ -93,33 +85,29 @@ void listar_todos_automoveis(void) {
 void listar_automoveis_a_venda(void) {
     FILE * automoveisFile, * carrosAVendaFile;
     if ((automoveisFile = fopen(ARQ_AUTOMOVEIS, "rb")) == NULL) {
-        printf("\n\n\tERRO: O arquivo %s NAO pode ser encontrado!\n", ARQ_AUTOMOVEIS);
+        printf(ERR_OPEN_ARC, ARQ_AUTOMOVEIS);
         pausarTela();
         return;
     }
 
     if ((carrosAVendaFile = fopen(ARQ_A_VENDA, "w")) == NULL) {
-        printf("\n\n\tERRO: O arquivo %s NAO pode ser encontrado!\n", ARQ_A_VENDA);
+        printf(ERR_OPEN_ARC, ARQ_A_VENDA);
         fclose(automoveisFile);
         pausarTela();
         return;
     }
     
-    // Move o ponteiro de posição para o final do arquivo
     fseek(automoveisFile, 0, SEEK_END);
-    // Calcula-se o tamanha do vetor de carros cadastrados
     int TAMANHO = ftell(automoveisFile) / sizeof(automovel);
     automovel carros[TAMANHO];
     automovel carrosAVenda[TAMANHO];
 
-    // Retornar o ponteiro de leitura para o começo do arquivo
     rewind(automoveisFile);
     fread(carros, sizeof(automovel), TAMANHO, automoveisFile);
 
     int i, j = 0, tamCarrosAVenda;
     for (i = 0; i < TAMANHO; i++) {
         if (!carros[i].vendido) {
-            // Coloca o carro i na posição j do vetor de carros a vendidos
             carrosAVenda[j++] = carros[i];
         }
     }
@@ -179,12 +167,11 @@ void alterar_automovel(void) {
     automovel carro;
     FILE * automoveisFile;
     if ((automoveisFile = fopen(ARQ_AUTOMOVEIS, "r+b")) == NULL) {
-        printf("\n\n\tERRO: O arquivo %s NAO pode ser encontrado!\n", ARQ_AUTOMOVEIS);
+        printf(ERR_OPEN_ARC, ARQ_AUTOMOVEIS);
         pausarTela();
         return;
     }
 
-    // Caso o codigo seja menos que 1 ou o fim do arquivo seja excedido
     if (!automovel_valido(codigo, &carro)) {
         printf("\tERRO: Automovel com codigo invalido, por favor tente novamente.\n");
     } else {        
@@ -229,7 +216,6 @@ void quicksort(automovel a[], int inicio, int fim) {
     while (i <= j) {
         while (a[i].preco < x.preco) i++; 
         while (a[j].preco > x.preco) j--;
-        // Caso I e J não tenham se cruzado ou se encontrado, trocam de posição
         if (i <= j) {
             aux = a[i];
             a[i++] = a[j];
@@ -237,23 +223,19 @@ void quicksort(automovel a[], int inicio, int fim) {
         }
     }
 
-    // Se J não chegou no inicio faz-se o processo de novo
     if (j > inicio) quicksort(a, inicio, j);
-    // Se I não chegou ao fim faz-se o processo de novo
     if (i < fim) quicksort(a, i, fim);
 }
 
 bool automovel_valido(int codigo, automovel *c) {
     FILE * automoveisFile;
     if ((automoveisFile = fopen(ARQ_AUTOMOVEIS, "rb")) == NULL) {
-        printf("\n\n\tERRO: O arquivo %s NAO pode ser encontrado!\n", ARQ_AUTOMOVEIS);
+        printf(ERR_OPEN_ARC, ARQ_AUTOMOVEIS);
         pausarTela();
         return false;
     }
 
-    // Coloca o ponteiro de leitura no fim do automovel anterior ao que deseja alterar
     fseek(automoveisFile, (codigo - 1) * sizeof(automovel), SEEK_SET);
-    // Lê-se os dados do automovel de código especificado
     fread(c, sizeof(automovel), 1, automoveisFile);
 
     fclose(automoveisFile);
@@ -264,17 +246,15 @@ void vender_automovel(int codigo) {
     automovel carro;
     FILE * automoveisFile;
     if ((automoveisFile = fopen(ARQ_AUTOMOVEIS, "r+b")) == NULL) {
-        printf("\n\n\tERRO: O arquivo %s NAO pode ser encontrado!\n", ARQ_AUTOMOVEIS);
+        printf(ERR_OPEN_ARC, ARQ_AUTOMOVEIS);
         pausarTela();
         return;
     }
     // Coloca o ponteiro de leitura no fim do automovel anterior ao que deseja alterar
     fseek(automoveisFile, (codigo - 1) * sizeof(automovel), SEEK_SET); 
-    // Lê-se os dados do automovel de código especificado
     fread(&carro, sizeof(automovel), 1, automoveisFile); 
     carro.vendido = true;
     fseek(automoveisFile, -sizeof(automovel), SEEK_CUR);
-    // Altera no arquivo o automovel desejado
     fwrite(&carro, sizeof(automovel), 1, automoveisFile); 
     fclose(automoveisFile);
 }

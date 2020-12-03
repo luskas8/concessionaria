@@ -152,7 +152,8 @@ void listar_automoveis_a_venda(void) {
     }
     
     fclose(carrosAVendaFile);
-    printf("\n");
+    printf("\n\tSUCESSO: Arquivo %s criado.\n", ARQ_A_VENDA);
+    pausarTela();
 }
 
 void alterar_automovel(void) {

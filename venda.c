@@ -36,7 +36,7 @@ void cadastrar_venda(void) {
 
     automovel c;
     if (!automovel_valido(v.cod_automovel, &c)) {
-        printf("\tERRO: Automovel com codigo invalido. Venda NAO cadastrada.\n");
+        printf("\tERRO: Venda NAO cadastrada.\n");
         fclose(vendaFile);
         pausarTela();
         return;
@@ -61,7 +61,7 @@ void cadastrar_venda(void) {
     read_int(&v.cod_vendedor);
     vendedor vendedorV;
     if (!vendedor_valido(v.cod_vendedor, &vendedorV)) {
-        printf("\tERRO: Vendedor com codigo invalido. Venda NAO cadastrada.\n");
+        printf("\tERRO: Venda NAO cadastrada.\n");
         fclose(vendaFile);
         pausarTela();
         return;
@@ -81,7 +81,7 @@ void cadastrar_venda(void) {
     fclose(vendaFile);
 
     printf("\nVenda realizada com sucesso!\n");
-    pausarTela();getchar();
+    pausarTela();
 }
 
 void listar_vendas_vendedor(void) {

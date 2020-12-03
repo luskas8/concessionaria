@@ -17,7 +17,7 @@ void cadastrar_vendedor(void) {
     vendedor v;
     FILE * vendedorFile;
     // Verifica se há algo de errado com o arquivo
-    if ((vendedorFile = fopen(ARQ_VENDEDORES, "r+b")) == NULL) {
+    if ((vendedorFile = fopen(ARQ_VENDEDORES, "a+b")) == NULL) {
         printf(ERR_OPEN_ARC, ARQ_VENDEDORES);
         pausarTela();
         return;

@@ -42,8 +42,8 @@ void listar_vendas_vendedor(void);
 /* função que ordena um vetor de venda pela data da venda */
 void ordenar_vendas(int, venda []);
 
-int compara(data a, data b);
+int compara(data, data);
 
-void quicksortVendas(venda vendas[], int e, int d);
+void quicksortVendas(venda [], int, int);
 
 #endif

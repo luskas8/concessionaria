@@ -46,11 +46,11 @@ void listar_automoveis_a_venda(void);
 void ordenar_automoveis(int, automovel []);
 
 /* função de quicksort para ordernar o vetor de tipo automovel */
-void quicksort(automovel a[], int inicio, int fim);
+void quicksort(automovel [], int, int);
 
 /* função que recebe inteiro e um ponteiro de automovel e retornar se é um código de automovel válido */
 bool automovel_valido(int, automovel *);
 
 /* função que recebe um inteiro e altera o status de vendido de um carro determinado por esse inteiro */
-void vender_automovel(int codigo);
+void vender_automovel(int);
 #endif 

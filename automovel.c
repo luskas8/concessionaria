@@ -190,10 +190,10 @@ void exibirFormatoTabela(automovel lista[], int tam, char titulo[], FILE * strea
   if (strlen(titulo) > 0) {
     printf("\n\n\t\t%s\n\n", titulo);
   }
-  fprintf(stream,
-    stream == stdout 
-    ? "\tCodigo\t\tMarca  \t\t     Modelo \t\t  Ano    \tPreco\n"
-    : "\tCodigo\t\tMarca \t\t\t\t\t\t\t Modelo\t\t\t\t\t\t\t\tAno\t\t\tPreco\n"
+  fprintf(
+    stream, 
+    "\t%-6s\t\t%-21s%-21s%-4s\t\t%-5s\n",
+    "Codigo", "Marca", "Modelo", "Ano", "Preco"
   );
   fprintf(stream, "\t----------------------------------------------------------------------------------------------\n");
   for (int i = 0; i < tam; i++) {

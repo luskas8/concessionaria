@@ -16,7 +16,7 @@
 void cadastrar_automovel(void) {
     automovel carro;
     FILE * automoveisFile;
-    if ((automoveisFile = fopen(ARQ_AUTOMOVEIS, "r+b")) == NULL) {
+    if ((automoveisFile = fopen(ARQ_AUTOMOVEIS, "a+b")) == NULL) {
         printf(ERR_OPEN_ARC, ARQ_AUTOMOVEIS);
         pausarTela();
         return;

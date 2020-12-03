@@ -13,7 +13,17 @@
 #include <stdio.h>
 #include "utils.h"
 
-void pausarTela(void) {
+bool isThisChooseMistaken(char header[], char idOwner[], int * typedId) {
+  printf("%s", header);
+  printf("Nao deseja estar aqui? Entre com '-1' para voltar ao menu principal.\n\n");
+  printf("Informe o codigo do %s", idOwner);
+  read_int(*typedId);
+  return (*typedId == -1 ? false : true);
+}
+
+
+void pausarTela(char message[]) {
+    printf("%s", message);
     printf("\tPressione ENTER para voltar ao menu...\n");
     char ch;
     read_line(&ch, 1);

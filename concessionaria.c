@@ -6,7 +6,7 @@
  * Ciro Cirne Trindade
  * 19/11/2020
  * 
- * Aquivos disponibilizados pelo prof Ciro:
+ * Arquivos disponibilizados pelo profº Ciro:
  *  concessionaria.c automovel.h venda.h vendedor.h
  * 
  * Artur Freire dos Santos

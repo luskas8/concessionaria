@@ -16,10 +16,9 @@
 void cadastrar_vendedor(void) {
     vendedor v;
     FILE * vendedorFile;
-    // Verifica se há algo de errado com o arquivo
     if ((vendedorFile = fopen(ARQ_VENDEDORES, "a+b")) == NULL) {
         printf(ERR_OPEN_ARC, ARQ_VENDEDORES);
-        pausarTela();
+        pausarTela("");
         return;
     }
 
@@ -36,16 +35,15 @@ void cadastrar_vendedor(void) {
     } else {
         printf("\tSUCESSO: Vendedor cadastrado!\n");
     }
-    pausarTela();
+    pausarTela("");
     fclose(vendedorFile);
 }
 
 void listar_vendedores(void) {
     FILE * vendedorFile;
-    // Verifica se há algo de errado com o arquivo
     if ((vendedorFile = fopen(ARQ_VENDEDORES, "rb")) == NULL) {
         printf(ERR_OPEN_ARC, ARQ_VENDEDORES);
-        pausarTela();
+        pausarTela("");
         return;
     }
 
@@ -63,27 +61,23 @@ void listar_vendedores(void) {
     printf("\tCodigo\t\tNome\n");
     printf("\t---------------------------------------\n");
     for (int i = 0; i < TAMANHO; i++) {
-        // Lista os dados do vendedor i
         printf("\t%06d\t\t%s\n", vendedores[i].codigo, vendedores[i].nome);
         printf("\t---------------------------------------\n");
     }
-    pausarTela();
+    pausarTela("");
 }
 
 void alterar_vendedor(void) {
     int codigo;
-    printf("\n- ALTERANDO UM VENDEDOR\n\n");
-    printf("Nao deseja estar aqui? Entre com '-1' para voltar ao menu principal.\n\n");
-    printf("Codigo do vendedor: ");
-    read_int(&codigo);
-    if (codigo == -1) return;
+    if (isThisChooseMistaken("\n- ALTERANDO UM VENDEDOR\n\n", "vendedor", &codigo))
+      return;
 
     vendedor v;
     FILE * vendedorFile;
     
     if ((vendedorFile = fopen(ARQ_VENDEDORES, "r+b")) == NULL) {
         printf(ERR_OPEN_ARC, ARQ_VENDEDORES);
-        pausarTela();
+        pausarTela("");
         return;
     }
 
@@ -107,16 +101,15 @@ void alterar_vendedor(void) {
             printf("\tSUCESSO: Vendedor alterado!\n");
         }
     }
-    pausarTela();
+    pausarTela("");
     fclose(vendedorFile);
 }
 
 bool vendedor_valido(int codigo, vendedor * v) {
     FILE * vendedorFile;
-    // Verifica se há algo de errado com o arquivo
     if ((vendedorFile = fopen(ARQ_VENDEDORES, "rb")) == NULL) {
         printf(ERR_OPEN_ARC, ARQ_VENDEDORES);
-        pausarTela();
+        pausarTela("");
         return false;
     }
 

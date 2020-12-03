@@ -16,54 +16,38 @@
 
 void cadastrar_venda(void) {
     venda v;
+    if (isThisChooseMistaken("- CADASTRANDO UMA VENDA\n\n", "automovel", &v.cod_automovel))
+      return;
+
     FILE * vendaFile;
     if ((vendaFile = fopen(ARQ_VENDAS, "a+b")) == NULL) {
         printf(ERR_OPEN_ARC, ARQ_VENDAS);
-        pausarTela();
+        pausarTela("");
         return;
     }
-
     // Move o ponteiro de posição para o final do arquivo
     fseek(vendaFile, 0, SEEK_END);
-    printf("- CADASTRANDO UMA VENDA\n\n");
-    printf("Nao deseja estar aqui? Entre com '-1' para voltar ao menu principal.\n\n");
-    printf("Codigo do automovel: ");
-    read_int(&v.cod_automovel);
-    if (v.cod_automovel == -1) {
-      fclose(vendaFile);
-      return;
-    }
 
     automovel c;
     if (!automovel_valido(v.cod_automovel, &c)) {
-        printf("\tERRO: Venda NAO cadastrada.\n");
         fclose(vendaFile);
-        pausarTela();
+        pausarTela("\tERRO: Venda NAO cadastrada.\n");
         return;
     } else {
         if (c.vendido) {
-            // Caso status de vendido do automovel seja verdadeiro, a venda é cancelada
-            printf("\tERRO: Automovel ja' vendido. Venda NAO cadastrada.\n");
             fclose(vendaFile);
-            pausarTela();
+            pausarTela("\tERRO: Automovel ja' vendido. Venda NAO cadastrada.\n");
             return;
         }
-
-        printf("\n\tMarca\t\tModelo\t\tAno\tPreco\n");
-        printf("\t------------------------------------------------------------------------\n");
-        printf("\t%-16s%s\t\t%4d\t%.2f\n", 
-          c.marca, c.modelo, c.ano, c.preco
-        );
-        printf("\t------------------------------------------------------------------------\n");
+        exibirFormatoTabela(&c, 1, "", stdout);
     }
 
     printf("Codigo do vendedor: ");
     read_int(&v.cod_vendedor);
     vendedor vendedorV;
     if (!vendedor_valido(v.cod_vendedor, &vendedorV)) {
-        printf("\tERRO: Venda NAO cadastrada.\n");
         fclose(vendaFile);
-        pausarTela();
+        pausarTela("\tERRO: Venda NAO cadastrada.\n");
         return;
     } else {
         printf("\tNome\n");
@@ -80,39 +64,39 @@ void cadastrar_venda(void) {
     fwrite(&v, sizeof(venda), 1, vendaFile);
     fclose(vendaFile);
 
-    printf("\nVenda realizada com sucesso!\n");
-    pausarTela();
+    pausarTela("\nVenda realizada com sucesso!\n");
 }
 
 void listar_vendas_vendedor(void) {
-    int codigo, i, TAMANHO_CARROS, TAMANHO_VENDAS, TAMANHO_VENDEDORES;
-    FILE * automoveisFile, * vendasFile, * vendedoresFile;
+    int codigo;
+    if (isThisChooseMistaken("- LISTANDO VENDAS DE UM VENDEDOR\n\n", "vendedor", &codigo))
+      return;
     
-    printf("\n\n\tINFORME O CODIGO DO VENDEDOR: ");
-    read_int(&codigo);
+    int i, TAMANHO_CARROS, TAMANHO_VENDAS, TAMANHO_VENDEDORES;
+    FILE * automoveisFile, * vendasFile, * vendedoresFile;
     vendedor vendedorV;
     if (!vendedor_valido(codigo, &vendedorV)) {
-      printf("\tERRO: O codigo digitado e' invalido. Listagem NAO pode ser concluida.\n");
-      pausarTela();
+      pausarTela("\tERRO: O codigo digitado e' invalido. Listagem NAO pode ser concluida.\n");
       return;
     }
     
     if ((vendasFile = fopen(ARQ_VENDAS, "rb")) == NULL) {
         printf(ERR_OPEN_ARC, ARQ_VENDAS);
-        pausarTela();
+        pausarTela("");
         return;
     }
     if ((automoveisFile = fopen(ARQ_AUTOMOVEIS, "rb")) == NULL) {
         printf(ERR_OPEN_ARC, ARQ_AUTOMOVEIS);
         fclose(vendasFile);
-        pausarTela();
+        pausarTela("");
         return;
     }
 
     if ((vendedoresFile = fopen(ARQ_VENDEDORES, "rb")) == NULL) {
       printf(ERR_OPEN_ARC, ARQ_AUTOMOVEIS);
+      fclose(automoveisFile);
       fclose(vendasFile);
-      pausarTela();
+      pausarTela("");
       return;
     }
 
@@ -165,7 +149,7 @@ void listar_vendas_vendedor(void) {
         }
     }
     printf("\tTOTAL DO MES\t\t\t\t\t%.2f\n\n", valorVendasTotais);
-    pausarTela();
+    pausarTela("");
 }
 
 void listar_vendas_mes(void) {
@@ -178,28 +162,27 @@ void listar_vendas_mes(void) {
     sscanf(line, "%d/%d", &ano, &mes);
 
     if (mes < 1 || mes > 12 || ano > CURR_YEAR) {
-        printf("\tERRO: Data invalida! A listagem NAO pode ser concluida.\n");
-        pausarTela();
+        pausarTela("\tERRO: Data invalida! A listagem NAO pode ser concluida.\n");
         return;
     }
 
     FILE * vendasFile, * automoveisFile, * vendedoresFile;
     if ((vendasFile = fopen(ARQ_VENDAS, "rb")) == NULL) {
         printf(ERR_OPEN_ARC, ARQ_VENDAS);
-        pausarTela();
+        pausarTela("");
         return;
     }
     if ((vendedoresFile = fopen(ARQ_VENDEDORES, "rb")) == NULL) {
         printf(ERR_OPEN_ARC, ARQ_VENDEDORES);
         fclose(vendasFile);
-        pausarTela();
+        pausarTela("");
         return;
     }
     if ((automoveisFile = fopen(ARQ_AUTOMOVEIS, "rb")) == NULL) {
         printf(ERR_OPEN_ARC, ARQ_AUTOMOVEIS);
         fclose(vendasFile);
         fclose(vendedoresFile);
-        pausarTela();
+        pausarTela("");
         return;
     }
 
@@ -250,7 +233,7 @@ void listar_vendas_mes(void) {
         }
     }
     printf("\tTOTAL DO MES\t\t\t\t\t%.2f\n\n", vendasTotaisMes);
-    pausarTela();
+    pausarTela("");
 }
 
 void ordenar_vendas(int tamanho, venda v[]) {

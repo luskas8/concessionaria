@@ -11,6 +11,7 @@
 */
 
 #include <stdio.h>
+#include <string.h>
 #include "automovel.h"
 
 void cadastrar_automovel(void) {
@@ -64,20 +65,8 @@ void listar_todos_automoveis(void) {
     // Ordena os carros em ordem crescente de preço
     ordenar_automoveis(TAMANHO, carros);
 
-    printf("\n\n\t\tLISTA DE CARROS CADASTRADOS\n\n");
-    printf("\tCodigo\t\tMarca\t\t\tModelo\t\t     Ano\tPreco\n");
-    printf("\t----------------------------------------------------------------------------------------------\n");
-    int i;
-    for (i = 0; i < TAMANHO; i++) {
-        printf("\t%03d\t\t%-21s\t%-21s%4d\t%.2f\n", 
-          carros[i].codigo, 
-          carros[i].marca, 
-          carros[i].modelo, 
-          carros[i].ano,
-          carros[i].preco
-        );
-        printf("\t----------------------------------------------------------------------------------------------\n");
-    }
+    exibirFormatoTabela(carros, TAMANHO, "LISTA DE CARROS CADASTRADOS", stdout);
+
     fclose(automoveisFile);
     pausarTela();
 }
@@ -117,50 +106,24 @@ void listar_automoveis_a_venda(void) {
 
     // Ordena os carros em ordem crescente de preço
     ordenar_automoveis(j, carrosAVenda);
-
-    printf("\n\n\t\tLISTA DE CARROS A VENDA\n\n");
-    printf("\tCodigo\t\tMarca\t\t\tModelo\t\t     Ano\tPreco\n");
-    printf("\t----------------------------------------------------------------------------------------------\n");
-    for (i = 0; i < j; i++) {
-        printf("\t%06d\t\t%-21s\t%-21s%4d\t%.2f\n", 
-          carrosAVenda[i].codigo, 
-          carrosAVenda[i].marca, 
-          carrosAVenda[i].modelo, 
-          carrosAVenda[i].ano,
-          carrosAVenda[i].preco
-        );
-        printf("\t----------------------------------------------------------------------------------------------\n");
-    }
-
+    exibirFormatoTabela(carrosAVenda, j, "LISTA DE CARROS A VENDA", stdout);
+    
     printf("\tGostaria de salvar em arquivo? [S]im | [N]ao\n");
     char op;
     read_line(&op, 1);
-
     if (op == 'S' || op == 's') {
-        fprintf(carrosAVendaFile, "\tCodigo\t\tMarca\t\t\t\t Modelo\t\t\t\t  Ano\t\tPreco\n");
-        fprintf(carrosAVendaFile, "\t----------------------------------------------------------------------------------------------\n");
-        for (i = 0; i < tamCarrosAVenda; i++) {
-          fprintf(carrosAVendaFile, "\t%06d\t\t%-21s%-21s%4d\t\t%.2f\n", 
-            carros[i].codigo, 
-            carros[i].marca, 
-            carros[i].modelo, 
-            carros[i].ano,
-            carros[i].preco
-          );
-          fprintf(carrosAVendaFile, "\t----------------------------------------------------------------------------------------------\n");
-        }
+        exibirFormatoTabela(carrosAVenda, tamCarrosAVenda, "", carrosAVendaFile);
+        printf("\n\tSUCESSO: Arquivo %s criado.\n", ARQ_A_VENDA);
+        pausarTela();
     }
-    
     fclose(carrosAVendaFile);
-    printf("\n\tSUCESSO: Arquivo %s criado.\n", ARQ_A_VENDA);
-    pausarTela();
+    
 }
 
 void alterar_automovel(void) {
-
     int codigo;
     printf("- ALTERANDO UM AUTOMOVEL\n\n");
-    printf("Nao deseja estar aqui? Entre com '-1' para voltar ao menu principal.\n\n");
+    printf("Nao deseja estar aqui? Entre com '-1' nesta primeira etapa para voltar ao menu principal.\n\n");
     printf("Codigo do automovel: ");
     read_int(&codigo);
     if (codigo == -1) return;
@@ -169,30 +132,47 @@ void alterar_automovel(void) {
     FILE * automoveisFile;
     if ((automoveisFile = fopen(ARQ_AUTOMOVEIS, "r+b")) == NULL) {
         printf(ERR_OPEN_ARC, ARQ_AUTOMOVEIS);
-        pausarTela();
+        pausarTela("");
         return;
     }
 
     if (!automovel_valido(codigo, &carro)) {
         printf("\tERRO: Automovel com codigo invalido, por favor tente novamente.\n");
-    } else {        
-        printf("\n\tCodigo\t\tMarca\t\tModelo\t\tAno\tPreco\n");
-        printf("\t------------------------------------------------------------------------\n");
-        printf("\t%06d\t\t%-16s%s\t\t%4d\t%.2f\n", 
-          carro.codigo, carro.marca, carro.modelo, carro.ano, carro.preco
-        );
-        printf("\t------------------------------------------------------------------------\n");
+    } else {       
+        exibirFormatoTabela(&carro, 1, "", stdout);
+        char op;
+        
+        printf("\tAlterar marca? <S/n>: ");
+        scanf(" %c", &op);
+        if (op == 'S' || op == 's') {
+          getchar();
+          printf("Nova marca: ");
+          read_line(carro.marca, 21);
+        }
+        
+        printf("\tAlterar modelo? <S/n>: ");
+        scanf(" %c", &op);
+        if (op == 'S' || op == 's') {
+          getchar();
+          printf("Novo modelo: ");
+          read_line(carro.modelo, 21);
+        }
 
-        char novaMarca[21], novoModelo[21];
-        float novoPreco;
-        printf("\tAlterar marca: ");
-        read_line(carro.marca, 21);
-        printf("\tAlterar modelo: ");
-        read_line(carro.modelo, 21);
-        printf("\tAno do automovel: ");
-        read_int(&carro.ano);
-        printf("\tAlterar preco: ");
-        read_float(&carro.preco);
+        printf("\tAlterar ano? <S/n>: ");
+        scanf(" %c", &op);
+        if (op == 'S' || op == 's') {
+          getchar();
+          printf("Novo ano do automovel: ");
+          read_int(&carro.ano);
+        }
+
+        printf("\tAlterar preco? <S/n>: ");
+        scanf(" %c", &op);
+        if (op == 'S' || op == 's') {
+          getchar();
+          printf("Novo preço: ");
+          read_float(&carro.preco);
+        }
         
         fseek(automoveisFile, (codigo - 1) * sizeof(automovel), SEEK_SET);
         if (fwrite(&carro, sizeof(automovel), 1, automoveisFile) < 1) {
@@ -203,7 +183,29 @@ void alterar_automovel(void) {
     }
     
     fclose(automoveisFile);
-    pausarTela();
+    pausarTela("");
+}
+
+void exibirFormatoTabela(automovel lista[], int tam, char titulo[], FILE * stream) {
+  if (strlen(titulo) > 0) {
+    printf("\n\n\t\t%s\n\n", titulo);
+  }
+  fprintf(stream,
+    stream == stdout 
+    ? "\tCodigo\t\tMarca  \t\t     Modelo \t\t  Ano    \tPreco\n"
+    : "\tCodigo\t\tMarca \t\t\t\t\t\t\t Modelo\t\t\t\t\t\t\t\tAno\t\t\tPreco\n"
+  );
+  fprintf(stream, "\t----------------------------------------------------------------------------------------------\n");
+  for (int i = 0; i < tam; i++) {
+      fprintf(stream, "\t%06d\t\t%-21s%-21s%4d\t\t%.2f\n",
+        lista[i].codigo, 
+        lista[i].marca, 
+        lista[i].modelo, 
+        lista[i].ano,
+        lista[i].preco
+      );
+      fprintf(stream, "\t----------------------------------------------------------------------------------------------\n");
+  }
 }
 
 void ordenar_automoveis(int TAMANHO, automovel carros[]) {

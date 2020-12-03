@@ -17,7 +17,7 @@
 void cadastrar_venda(void) {
     venda v;
     FILE * vendaFile;
-    if ((vendaFile = fopen(ARQ_VENDAS, "r+b")) == NULL) {
+    if ((vendaFile = fopen(ARQ_VENDAS, "a+b")) == NULL) {
         printf(ERR_OPEN_ARC, ARQ_VENDAS);
         pausarTela();
         return;

@@ -19,7 +19,7 @@ void cadastrar_automovel(void) {
     FILE * automoveisFile;
     if ((automoveisFile = fopen(ARQ_AUTOMOVEIS, "a+b")) == NULL) {
         printf(ERR_OPEN_ARC, ARQ_AUTOMOVEIS);
-        pausarTela();
+        pausarTela("");
         return;
     }
 
@@ -43,7 +43,7 @@ void cadastrar_automovel(void) {
         printf("\tSUCESSO: Automovel cadastrado!\n");
     }
 
-    pausarTela();
+    pausarTela("");
     fclose(automoveisFile);
 }
 
@@ -51,7 +51,7 @@ void listar_todos_automoveis(void) {
     FILE * automoveisFile;
     if ((automoveisFile = fopen(ARQ_AUTOMOVEIS, "rb")) == NULL) {
         printf(ERR_OPEN_ARC, ARQ_AUTOMOVEIS);
-        pausarTela();
+        pausarTela("");
         return;
     }
     
@@ -68,21 +68,21 @@ void listar_todos_automoveis(void) {
     exibirFormatoTabela(carros, TAMANHO, "LISTA DE CARROS CADASTRADOS", stdout);
 
     fclose(automoveisFile);
-    pausarTela();
+    pausarTela("");
 }
 
 void listar_automoveis_a_venda(void) {
     FILE * automoveisFile, * carrosAVendaFile;
     if ((automoveisFile = fopen(ARQ_AUTOMOVEIS, "rb")) == NULL) {
         printf(ERR_OPEN_ARC, ARQ_AUTOMOVEIS);
-        pausarTela();
+        pausarTela("");
         return;
     }
 
     if ((carrosAVendaFile = fopen(ARQ_A_VENDA, "w")) == NULL) {
         printf(ERR_OPEN_ARC, ARQ_A_VENDA);
         fclose(automoveisFile);
-        pausarTela();
+        pausarTela("");
         return;
     }
     
@@ -114,7 +114,7 @@ void listar_automoveis_a_venda(void) {
     if (op == 'S' || op == 's') {
         exibirFormatoTabela(carrosAVenda, tamCarrosAVenda, "", carrosAVendaFile);
         printf("\n\tSUCESSO: Arquivo %s criado.\n", ARQ_A_VENDA);
-        pausarTela();
+        pausarTela("");
     }
     fclose(carrosAVendaFile);
     
@@ -234,7 +234,7 @@ bool automovel_valido(int codigo, automovel *c) {
     FILE * automoveisFile;
     if ((automoveisFile = fopen(ARQ_AUTOMOVEIS, "rb")) == NULL) {
         printf(ERR_OPEN_ARC, ARQ_AUTOMOVEIS);
-        pausarTela();
+        pausarTela("");
         return false;
     }
 
@@ -250,7 +250,7 @@ void vender_automovel(int codigo) {
     FILE * automoveisFile;
     if ((automoveisFile = fopen(ARQ_AUTOMOVEIS, "r+b")) == NULL) {
         printf(ERR_OPEN_ARC, ARQ_AUTOMOVEIS);
-        pausarTela();
+        pausarTela("");
         return;
     }
     // Coloca o ponteiro de leitura no fim do automovel anterior ao que deseja alterar

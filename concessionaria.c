@@ -93,7 +93,7 @@ int main() {
             break;
             default:
                 printf("\n\tOpcao invalida!\n");
-                pausarTela();
+                pausarTela("");
         } // fim do switch
     } while (op != SAIR);
 

@@ -21,7 +21,7 @@
 #define ARQ_AUTOMOVEIS "automoveis.dat"
 #define ARQ_A_VENDA "avenda.txt"
 
-typedef struct {
+typedef struct automovel {
     int codigo; // código do automóvel
     char marca[21]; // marca do automóvel, por exemplo, Fiat, Chevrolet, VW
     char modelo[21]; // modelo do automóvel, por exemplo, Palio, Onix, Up

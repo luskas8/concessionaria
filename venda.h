@@ -18,13 +18,13 @@
 #include "automovel.h"
 #define ARQ_VENDAS "vendas.dat"
 
-typedef struct {
+typedef struct data{
     int dia;
     int mes;
     int ano;
 } data;
 
-typedef struct {
+typedef struct venda {
     int cod_automovel;
     int cod_vendedor;
     data dt;

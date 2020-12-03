@@ -20,7 +20,7 @@
 #include "utils.h"
 #define ARQ_VENDEDORES "vendedores.dat"
 
-typedef struct {
+typedef struct vendedor {
     int codigo; // código do vendedor
     char nome[41]; // nome do vendedor
 } vendedor;
